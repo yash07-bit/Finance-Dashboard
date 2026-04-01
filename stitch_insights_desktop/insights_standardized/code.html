@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Insights - Quiet Authority</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed-dim": "#b7c8e1",
+              "outline-variant": "#c3c6d6",
+              "surface-tint": "#0c56d0",
+              "surface-container-highest": "#e0e3e5",
+              "secondary-container": "#6bff8f",
+              "tertiary-fixed": "#d3e4fe",
+              "surface-container": "#eceef0",
+              "on-primary-container": "#c4d2ff",
+              "primary-fixed-dim": "#b2c5ff",
+              "on-surface-variant": "#434654",
+              "on-background": "#191c1e",
+              "tertiary-container": "#4c5c72",
+              "on-tertiary-fixed-variant": "#38485d",
+              "inverse-surface": "#2d3133",
+              "surface-bright": "#f7f9fb",
+              "background": "#f7f9fb",
+              "surface-container-lowest": "#ffffff",
+              "on-error-container": "#93000a",
+              "on-error": "#ffffff",
+              "on-primary-fixed-variant": "#0040a2",
+              "inverse-primary": "#b2c5ff",
+              "on-secondary-container": "#007432",
+              "secondary-fixed": "#6bff8f",
+              "on-secondary": "#ffffff",
+              "surface-variant": "#e0e3e5",
+              "outline": "#737685",
+              "on-surface": "#191c1e",
+              "primary-container": "#0052cc",
+              "on-tertiary-fixed": "#0b1c30",
+              "on-secondary-fixed-variant": "#005321",
+              "on-primary-fixed": "#001848",
+              "primary-fixed": "#dae2ff",
+              "tertiary": "#35445a",
+              "surface-container-high": "#e6e8ea",
+              "surface-dim": "#d8dadc",
+              "on-secondary-fixed": "#002109",
+              "error": "#ba1a1a",
+              "secondary": "#006e2f",
+              "on-tertiary-container": "#c4d4ee",
+              "on-tertiary": "#ffffff",
+              "surface-container-low": "#f2f4f6",
+              "surface": "#f7f9fb",
+              "secondary-fixed-dim": "#4ae176",
+              "on-primary": "#ffffff",
+              "error-container": "#ffdad6",
+              "primary": "#003d9b",
+              "inverse-on-surface": "#eff1f3"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "1rem", "xl": "1.25rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-manrope { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-50 dark:bg-slate-900 flex flex-col py-8 px-6 z-50">
+<div class="mb-10">
+<h1 class="text-lg font-bold tracking-tight text-slate-900 dark:text-white">Quiet Authority</h1>
+<p class="text-xs font-inter text-slate-500 uppercase tracking-widest mt-1">Financial Curator</p>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Dashboard -->
+<a class="flex items-center px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm font-medium">Dashboard</span>
+</a>
+<!-- Transactions -->
+<a class="flex items-center px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="receipt_long">receipt_long</span>
+<span class="font-inter text-sm font-medium">Transactions</span>
+</a>
+<!-- Insights (Active) -->
+<a class="flex items-center px-4 py-3 text-blue-700 dark:text-blue-400 font-semibold border-r-2 border-blue-700 dark:border-blue-400 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-l-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="insights">insights</span>
+<span class="font-inter text-sm">Insights</span>
+</a>
+<!-- Budgets -->
+<a class="flex items-center px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="font-inter text-sm font-medium">Budgets</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="analytics">analytics</span>
+<span class="font-inter text-sm font-medium">Reports</span>
+</a>
+<!-- Wallets -->
+<a class="flex items-center px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="account_balance">account_balance</span>
+<span class="font-inter text-sm font-medium">Wallets</span>
+</a>
+<!-- Settings -->
+<a class="flex items-center px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-xl" data-icon="settings">settings</span>
+<span class="font-inter text-sm font-medium">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-8">
+<div class="flex items-center space-x-3 px-4">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+<img alt="Quiet Authority Logo" data-alt="Professional headshot of a mature financial advisor in a suit, soft warm office lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb7VidfruXKyXJL-kGeidJ1Vb__vtL1meyYkEWWB_wQtcD50YP9BM_d1nKWuYyz7-ALqEU4gfv1gVuBqNO3FDOzyXwevhubqWCYNTBkC34zrDCa5jIqcgM7Ck93TtnRAZELnMC6NKVb8k7QVJayQaitQHJDvRpEKuth9lGA9bJpqv811XQPV-_8FsKwklE8MvkphMxOrUceEJ8yHsZYzUF58C8_u9pUSqKYd46seRPzjRVk5thlAkKy1u_nxPJLPqihxdZjr4eV3M"/>
+</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Marcus Vance</p>
+<p class="text-xs text-slate-500">Premium Member</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-16 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl flex justify-between items-center px-10 z-40 border-b border-slate-100 dark:border-slate-800 shadow-sm dark:shadow-none">
+<div>
+<h2 class="font-manrope text-xl font-semibold text-slate-900">Insights</h2>
+</div>
+<div class="flex items-center space-x-6">
+<button class="hover:bg-slate-50 dark:hover:bg-slate-900 rounded-full p-2 scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-400" data-icon="notifications">notifications</span>
+</button>
+<div class="h-6 w-px bg-slate-200 dark:bg-slate-800"></div>
+<span class="text-sm font-medium text-slate-500">Viewer / Admin</span>
+<div class="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+<img alt="User Avatar" data-alt="User profile avatar of a businessman in a navy blue suit" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2pyK224rKmsKfQPUe68WuCvcSqN6A_o49_Ay6Rt6dUbPta9OgM4frw4CFCbwT5iYqajqCDn0efevwktGAPWq3qsBXqaEucfq4oCFUyiTLGLHWVeBoCMjfSUqEd2GADq6f4dEgMQTSQD9tRQcsjI50L476DTkTsWsHgWooNg90l9848MvFeZjXfa9ez68DwbL-0rdZ__bqhf-lB2kOrfHxYxAX4nW4ClWGPHH7Zedid3g0TSpj_XS3AfbJBKKRzlVGTAz3lsY8kD0"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-16 min-h-screen">
+<div class="max-w-[1400px] mx-auto p-10">
+<!-- Header Section -->
+<div class="mb-12">
+<p class="text-tertiary font-label uppercase tracking-widest text-xs mb-2">Portfolio Overview</p>
+<h3 class="text-4xl font-headline font-extrabold text-on-background tracking-tight">Financial Intelligence</h3>
+<p class="text-on-surface-variant mt-2 max-w-2xl font-body">Your curated view of capital flow, expenditure concentrations, and predictive wealth trajectories for the current fiscal quarter.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Highest Spending Category (Large Featured) -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-lg p-8 relative overflow-hidden flex flex-col justify-between group">
+<div class="z-10">
+<div class="flex justify-between items-start">
+<div>
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-tighter rounded-full">Peak Exposure</span>
+<h4 class="text-3xl font-headline font-bold mt-4">Technology &amp; Infrastructure</h4>
+<p class="text-on-surface-variant font-body text-sm mt-1">42% of total discretionary monthly outflow</p>
+</div>
+<div class="text-right">
+<p class="text-sm font-label text-on-surface-variant">Amount</p>
+<p class="text-3xl font-headline font-extrabold text-primary">$12,480.00</p>
+</div>
+</div>
+<!-- Visual representation of spending -->
+<div class="mt-12 space-y-6">
+<div>
+<div class="flex justify-between mb-2">
+<span class="text-xs font-semibold uppercase text-tertiary">Cloud Services</span>
+<span class="text-xs font-bold">$6,200</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full">
+<div class="h-full bg-primary rounded-full w-[65%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<span class="text-xs font-semibold uppercase text-tertiary">Hardware Upgrades</span>
+<span class="text-xs font-bold">$4,180</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full">
+<div class="h-full bg-primary/60 rounded-full w-[45%]"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-10 flex items-center text-primary font-semibold text-sm cursor-pointer group-hover:translate-x-1 transition-transform">
+<span>View category breakdown</span>
+<span class="material-symbols-outlined ml-1 text-sm" data-icon="arrow_forward">arrow_forward</span>
+</div>
+<!-- Decorative Gradient Surface -->
+<div class="absolute -right-20 -bottom-20 w-80 h-80 bg-primary/5 rounded-full blur-3xl"></div>
+</div>
+<!-- Monthly Comparison (Stacked) -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-low rounded-lg p-8 flex flex-col">
+<h4 class="text-lg font-headline font-bold mb-6">Period Comparison</h4>
+<div class="flex-1 flex flex-col justify-center space-y-8">
+<div>
+<p class="text-xs font-label text-on-surface-variant uppercase mb-1">September (Current)</p>
+<div class="flex items-end space-x-2">
+<span class="text-2xl font-headline font-bold">$28,450</span>
+<span class="text-secondary text-xs font-bold mb-1 flex items-center">
+<span class="material-symbols-outlined text-xs mr-0.5" data-icon="trending_down">trending_down</span>
+                                    4.2%
+                                </span>
+</div>
+</div>
+<div>
+<p class="text-xs font-label text-on-surface-variant uppercase mb-1">August (Previous)</p>
+<div class="flex items-end space-x-2">
+<span class="text-2xl font-headline font-bold text-tertiary/60">$29,690</span>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant/10">
+<p class="text-xs italic text-on-surface-variant">"Your spending efficiency has improved by 4.2% due to reduced operational overhead in the second week."</p>
+</div>
+</div>
+</div>
+<!-- Spending Trends (Asymmetric Grid) -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-lowest rounded-lg p-8 flex flex-col justify-between">
+<div>
+<h4 class="text-lg font-headline font-bold mb-2">Liquidity Trend</h4>
+<p class="text-xs text-on-surface-variant mb-8">Average daily variance over 30 days</p>
+<!-- Mini Chart Simulation -->
+<div class="flex items-end justify-between h-32 w-full gap-2 px-2">
+<div class="w-full bg-primary/10 h-[40%] rounded-t-sm"></div>
+<div class="w-full bg-primary/10 h-[55%] rounded-t-sm"></div>
+<div class="w-full bg-primary/20 h-[45%] rounded-t-sm"></div>
+<div class="w-full bg-primary/20 h-[70%] rounded-t-sm"></div>
+<div class="w-full bg-primary/40 h-[60%] rounded-t-sm"></div>
+<div class="w-full bg-primary/60 h-[85%] rounded-t-sm"></div>
+<div class="w-full bg-primary h-[100%] rounded-t-sm"></div>
+</div>
+</div>
+<div class="mt-8 flex justify-between items-center bg-surface-container-low p-4 rounded-xl">
+<div>
+<p class="text-[10px] font-bold uppercase text-tertiary">Forecast</p>
+<p class="text-sm font-bold text-on-surface">+ $4,200 End of Month</p>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="show_chart">show_chart</span>
+</div>
+</div>
+<!-- Simple Analytics Text Notes (Curated list) -->
+<div class="col-span-12 lg:col-span-7 space-y-6">
+<div class="bg-surface-container-lowest rounded-lg p-6 flex items-start space-x-4 border-l-4 border-primary">
+<div class="p-2 bg-primary/5 rounded-full">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="lightbulb">lightbulb</span>
+</div>
+<div>
+<h5 class="font-headline font-bold text-sm">Optimization Opportunity</h5>
+<p class="text-sm text-on-surface-variant mt-1 leading-relaxed">Subscription services for 'Cloud Storage' are overlapping. Consolidation could yield a $240 monthly saving without performance loss.</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-lg p-6 flex items-start space-x-4 border-l-4 border-secondary">
+<div class="p-2 bg-secondary/5 rounded-full">
+<span class="material-symbols-outlined text-secondary text-xl" data-icon="verified">verified</span>
+</div>
+<div>
+<h5 class="font-headline font-bold text-sm">Compliance &amp; Tax Buffer</h5>
+<p class="text-sm text-on-surface-variant mt-1 leading-relaxed">Your tax withholding buffer is currently at 115% of estimated liability. This provides a secure margin for Q4 filings.</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-lg p-6 flex items-start space-x-4 border-l-4 border-tertiary">
+<div class="p-2 bg-tertiary/5 rounded-full">
+<span class="material-symbols-outlined text-tertiary text-xl" data-icon="history">history</span>
+</div>
+<div>
+<h5 class="font-headline font-bold text-sm">Recurring Pattern Alert</h5>
+<p class="text-sm text-on-surface-variant mt-1 leading-relaxed">A spike in 'Entertainment' is consistent with your historical 3rd-week patterns. Suggesting a budget adjustment of 5% to accommodate.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Section: Focus Cards -->
+<div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="bg-primary text-white rounded-lg p-8 shadow-xl shadow-primary/10">
+<p class="text-xs font-bold uppercase tracking-widest text-on-primary-container/60 mb-2">Savings Rate</p>
+<div class="flex items-baseline space-x-2">
+<h4 class="text-4xl font-headline font-extrabold">22%</h4>
+<span class="text-on-primary-container text-xs">Target: 25%</span>
+</div>
+<div class="mt-6 w-full h-1 bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-fixed w-[88%]"></div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-lg p-8 flex flex-col justify-between group cursor-pointer hover:bg-surface-bright transition-colors">
+<div>
+<span class="material-symbols-outlined text-tertiary" data-icon="lock_open">lock_open</span>
+<h4 class="text-lg font-headline font-bold mt-4">Debt Exposure</h4>
+<p class="text-sm text-on-surface-variant mt-1">Leverage ratio: 0.12 (Excellent)</p>
+</div>
+<div class="mt-6 text-primary text-sm font-bold flex items-center">
+                        Review Liability <span class="material-symbols-outlined ml-1 text-xs" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-lg p-8 flex flex-col justify-between group cursor-pointer hover:bg-surface-bright transition-colors">
+<div>
+<span class="material-symbols-outlined text-tertiary" data-icon="shopping_bag">shopping_bag</span>
+<h4 class="text-lg font-headline font-bold mt-4">Lifestyle Cost</h4>
+<p class="text-sm text-on-surface-variant mt-1">Average per transaction: $84</p>
+</div>
+<div class="mt-6 text-primary text-sm font-bold flex items-center">
+                        Daily Log <span class="material-symbols-outlined ml-1 text-xs" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB Suppression: This is a details/insights page, so we follow the rule and don't render a generic FAB unless it maps to a specific action. -->
+</body></html>

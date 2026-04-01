@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings - Financial Curator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error-container": "#ffdad6",
+              "on-error": "#ffffff",
+              "tertiary-fixed-dim": "#b7c8e1",
+              "surface-tint": "#0c56d0",
+              "surface-container-lowest": "#ffffff",
+              "inverse-on-surface": "#eff1f3",
+              "secondary-container": "#6bff8f",
+              "secondary-fixed": "#6bff8f",
+              "surface-dim": "#d8dadc",
+              "on-tertiary": "#ffffff",
+              "on-tertiary-container": "#c4d4ee",
+              "tertiary": "#35445a",
+              "surface-container-high": "#e6e8ea",
+              "on-primary": "#ffffff",
+              "on-background": "#191c1e",
+              "primary": "#003d9b",
+              "on-secondary": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "tertiary-container": "#4c5c72",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-fixed-variant": "#005321",
+              "on-primary-container": "#c4d2ff",
+              "surface": "#f7f9fb",
+              "secondary-fixed-dim": "#4ae176",
+              "surface-container-highest": "#e0e3e5",
+              "secondary": "#006e2f",
+              "on-surface-variant": "#434654",
+              "inverse-primary": "#b2c5ff",
+              "error": "#ba1a1a",
+              "primary-fixed": "#dae2ff",
+              "primary-container": "#0052cc",
+              "primary-fixed-dim": "#b2c5ff",
+              "outline": "#737685",
+              "outline-variant": "#c3c6d6",
+              "on-tertiary-fixed": "#0b1c30",
+              "surface-container": "#eceef0",
+              "on-surface": "#191c1e",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-fixed-variant": "#38485d",
+              "on-secondary-fixed": "#002109",
+              "tertiary-fixed": "#d3e4fe",
+              "on-primary-fixed": "#001848",
+              "on-secondary-container": "#007432",
+              "background": "#f7f9fb",
+              "on-primary-fixed-variant": "#0040a2",
+              "surface-container-low": "#f2f4f6",
+              "on-error-container": "#93000a"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "1rem", "xl": "1.25rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 bg-slate-50 dark:bg-slate-900 flex flex-col py-8 px-6 space-y-2 z-50">
+<div class="mb-10 px-2">
+<div class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Quiet Authority</div>
+<div class="text-xs font-medium text-slate-500 uppercase tracking-widest mt-1">Wealth Management</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="text-sm font-medium">Transactions</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="insights">insights</span>
+<span class="text-sm font-medium">Insights</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+<span class="text-sm font-medium">Budgets</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="text-sm font-medium">Reports</span>
+</a>
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800/50 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="account_balance">account_balance</span>
+<span class="text-sm font-medium">Wallets</span>
+</a>
+<!-- Active Navigation State for Settings -->
+<a class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-blue-700 dark:text-blue-400 font-semibold border-r-4 border-blue-700 dark:border-blue-400 bg-slate-100 dark:bg-slate-800 transition-all duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center space-x-3 px-2">
+<img alt="Organization Logo" class="w-8 h-8 rounded bg-primary" data-alt="minimalist geometric logo for a wealth management firm with sharp lines and professional blue tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZg2cbDWt8H4kSm-FAJ0EjXJQMELW7-_EGmoa_YmVDr_H2PF8tdFWTAEFCxLaJObBVGl2gNbaOkpi5kzNIuUVgnOUEAoT4ZtuLb3fRj6lw_ON6g0FEAjIg8OjP6X59iRogZy7WC-WOgKgA0UfEHcfM05pXnkADp6NrYPR52Pw-5FL7-ojymvmfUDC2_uXNGrSfIipaodrL0sn_Cgr9hYR8OYUwJ5Y3ntEwlXAqgwGx6S-Ov0jqIqck2mshXkNh3S5e9RaAE7hqNrc"/>
+<div>
+<p class="text-sm font-bold text-slate-900 dark:text-white">Admin Access</p>
+<p class="text-xs text-slate-500">Corporate Tier</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-100/50 dark:border-slate-800/50 shadow-sm shadow-slate-200/20 dark:shadow-none flex justify-between items-center h-16 px-10">
+<div class="text-lg font-bold text-slate-900 dark:text-white">Financial Curator</div>
+<div class="flex items-center space-y-0 space-x-8">
+<nav class="flex items-center space-x-6">
+<a class="text-slate-400 dark:text-slate-500 font-medium hover:text-slate-900 dark:hover:text-slate-100 transition-all" href="#">Viewer</a>
+<a class="text-blue-600 dark:text-blue-400 font-bold border-b-2 border-blue-600 scale-95 active:scale-100 transition-transform" href="#">Admin</a>
+</nav>
+<div class="flex items-center space-x-4 border-l border-slate-100 dark:border-slate-800 pl-6">
+<button class="text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container">
+<img alt="User Profile" data-alt="professional portrait of a high-net-worth individual with a clean, confident look in a modern office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANZZ8BHyG30mWT8CkQVq2PoIGgovWT-o6y4HYtsNRJa2iWVsmRyAM_IHTE17UosDUHfXZQeWvX49in635wDlwTRyQHBKu764JJclwfJu_iizSohYsLQP7iWbaasab6oFODn9kmHvOP-vok_3t4sG-5AVNImXsqlEEKyqJ9WvHFJvbGqDYfnK2-x6eBd3eqKMv-gczjk5F9Ua8SWwPjo4OPZAujA2mi7qMc_dH_N2QKzg1_A7z5rNHlnMlyaqPYHbfIh5AcGxhX-Uk"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="ml-64 pt-16 min-h-screen">
+<div class="max-w-6xl mx-auto px-10 py-12">
+<!-- Header Section -->
+<div class="mb-12">
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface mb-2">Account Settings</h1>
+<p class="text-tertiary text-lg">Manage your personal profile, preferences, and security protocols.</p>
+</div>
+<!-- Bento Grid Settings Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Left Column: Profile & Identity -->
+<div class="col-span-12 lg:col-span-7 space-y-8">
+<!-- Profile Card -->
+<section class="bg-surface-container-lowest rounded-lg p-8 ring-1 ring-outline-variant/15">
+<div class="flex items-start justify-between mb-8">
+<div class="flex items-center space-x-6">
+<div class="relative group">
+<img alt="User Avatar" class="w-24 h-24 rounded-full object-cover" data-alt="close-up portrait of a professional man with short dark hair in a soft-lit architectural setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkZ0Zm8OpTOfFj7a6YjidTLjg63dQAmNAog97HFHrCQPYi5xSJdpaU2BrRM-MMHoNZTbZrzN2sBd1C3gz4W5zrHN4lliCP9dpwEVHpwpSIc5qM42WareKHGjE6dPTVcCwrR4tpLHvLOLIy9ml-s7h5y7uIo382HaWJblKFX3QmEOKcQ5QOBaDJnf-ds8H7acaxDVJViyCbAWCUfS-slfsj1hij7o2FI78a7emoD5YF4E-Kv_faJIJYgf92srzEr8GPNp4eBCaUfYo"/>
+<div class="absolute inset-0 bg-black/20 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined text-white" data-icon="photo_camera">photo_camera</span>
+</div>
+</div>
+<div>
+<h2 class="text-2xl font-bold text-on-surface">Alexander Sterling</h2>
+<p class="text-tertiary">alexander.sterling@curator.io</p>
+<div class="mt-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary-container text-on-secondary-container">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary mr-1.5"></span>
+                                        Admin Privileges
+                                    </div>
+</div>
+</div>
+<button class="text-primary font-semibold text-sm hover:underline">Edit Profile</button>
+</div>
+<form class="space-y-6">
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant">First Name</label>
+<input class="w-full bg-surface-container-low border-0 rounded-lg focus:ring-2 focus:ring-surface-tint p-3 text-on-surface transition-all outline-none" type="text" value="Alexander"/>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant">Last Name</label>
+<input class="w-full bg-surface-container-low border-0 rounded-lg focus:ring-2 focus:ring-surface-tint p-3 text-on-surface transition-all outline-none" type="text" value="Sterling"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block text-sm font-semibold text-on-surface-variant">Email Address</label>
+<input class="w-full bg-surface-container-low border-0 rounded-lg focus:ring-2 focus:ring-surface-tint p-3 text-on-surface transition-all outline-none" type="email" value="alexander.sterling@curator.io"/>
+</div>
+</form>
+</section>
+<!-- Role Configuration -->
+<section class="bg-surface-container-lowest rounded-lg p-8 ring-1 ring-outline-variant/15">
+<h3 class="text-xl font-bold mb-6 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary" data-icon="verified_user">verified_user</span>
+                            Role &amp; Access Control
+                        </h3>
+<div class="space-y-4">
+<label class="relative flex items-center p-4 cursor-pointer rounded-lg hover:bg-surface-container transition-colors ring-1 ring-outline-variant/10">
+<input checked="" class="w-4 h-4 text-primary border-outline-variant focus:ring-primary" name="role" type="radio"/>
+<div class="ml-4 flex-1">
+<span class="block text-sm font-bold text-on-surface">Admin</span>
+<span class="block text-xs text-tertiary">Full system access, user management, and financial authorization.</span>
+</div>
+<span class="material-symbols-outlined text-secondary" data-icon="check_circle" data-weight="fill" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</label>
+<label class="relative flex items-center p-4 cursor-pointer rounded-lg hover:bg-surface-container transition-colors ring-1 ring-outline-variant/10">
+<input class="w-4 h-4 text-primary border-outline-variant focus:ring-primary" name="role" type="radio"/>
+<div class="ml-4 flex-1">
+<span class="block text-sm font-bold text-on-surface">Viewer</span>
+<span class="block text-xs text-tertiary">Read-only access to reports and dashboard insights.</span>
+</div>
+</label>
+</div>
+</section>
+</div>
+<!-- Right Column: Preferences & Appearance -->
+<div class="col-span-12 lg:col-span-5 space-y-8">
+<!-- Preferences Card -->
+<section class="bg-surface-container-lowest rounded-lg p-8 ring-1 ring-outline-variant/15">
+<h3 class="text-xl font-bold mb-6 flex items-center">
+<span class="material-symbols-outlined mr-2 text-primary" data-icon="tune">tune</span>
+                            App Preferences
+                        </h3>
+<div class="space-y-8">
+<!-- Dark Mode Toggle -->
+<div class="flex items-center justify-between">
+<div>
+<p class="font-bold text-on-surface">Appearance</p>
+<p class="text-xs text-tertiary">Switch between light and dark themes</p>
+</div>
+<div class="flex items-center space-x-2 bg-surface-container-low p-1 rounded-full">
+<button class="px-4 py-1.5 rounded-full text-xs font-bold bg-white shadow-sm text-primary">Light</button>
+<button class="px-4 py-1.5 rounded-full text-xs font-bold text-tertiary hover:text-on-surface transition-colors">Dark</button>
+</div>
+</div>
+<!-- Currency Selection -->
+<div class="space-y-3">
+<div>
+<p class="font-bold text-on-surface">Base Currency</p>
+<p class="text-xs text-tertiary">Global reporting and balance display</p>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<button class="flex flex-col items-center justify-center p-3 rounded-lg border-2 border-primary bg-primary/5">
+<span class="text-lg font-bold text-primary">$</span>
+<span class="text-[10px] font-bold text-primary">USD</span>
+</button>
+<button class="flex flex-col items-center justify-center p-3 rounded-lg border-2 border-transparent bg-surface-container-low hover:border-outline-variant transition-all">
+<span class="text-lg font-bold text-on-surface">€</span>
+<span class="text-[10px] font-bold text-tertiary">EUR</span>
+</button>
+<button class="flex flex-col items-center justify-center p-3 rounded-lg border-2 border-transparent bg-surface-container-low hover:border-outline-variant transition-all">
+<span class="text-lg font-bold text-on-surface">₹</span>
+<span class="text-[10px] font-bold text-tertiary">INR</span>
+</button>
+</div>
+</div>
+<!-- Notification Toggles -->
+<div class="space-y-4 pt-4 border-t border-outline-variant/10">
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium text-on-surface">Security Alerts</span>
+<div class="w-10 h-5 bg-secondary rounded-full relative">
+<div class="absolute right-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium text-on-surface">Report Generation</span>
+<div class="w-10 h-5 bg-outline-variant/30 rounded-full relative">
+<div class="absolute left-1 top-1 w-3 h-3 bg-white rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Security Banner (Asymmetric Element) -->
+<section class="bg-primary-container rounded-lg p-6 text-on-primary-container relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-bold text-lg mb-2">Two-Factor Authentication</h4>
+<p class="text-sm opacity-90 mb-4">Add an extra layer of security to your wealth management profile.</p>
+<button class="bg-white text-primary px-4 py-2 rounded-full text-xs font-extrabold hover:bg-slate-50 transition-colors">
+                                Enable Now
+                            </button>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-8xl opacity-10 rotate-12" data-icon="shield">shield</span>
+</section>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="mt-12 pt-8 border-t border-outline-variant/20 flex items-center justify-between">
+<div>
+<p class="text-xs text-tertiary">Last updated: Oct 24, 2023 at 14:32 UTC</p>
+</div>
+<div class="flex space-x-4">
+<button class="px-6 py-2.5 rounded-full text-sm font-semibold text-tertiary hover:bg-surface-container transition-colors">Discard Changes</button>
+<button class="px-8 py-2.5 rounded-full text-sm font-bold text-white bg-gradient-to-r from-primary to-primary-container shadow-md shadow-primary/20 hover:opacity-90 transition-all">Save Preferences</button>
+</div>
+</div>
+</div>
+</main>
+</body></html>
