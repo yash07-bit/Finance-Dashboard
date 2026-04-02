@@ -1,74 +1,25 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import MainLayout from './layouts/MainLayout'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Dashboard from './pages/Dashboard'
-import Transactions from './pages/Transactions'
 import Insights from './pages/Insights'
+import Transactions from './pages/Transactions'
 import Budgets from './pages/Budgets'
-import Accounts from './pages/Accounts'
 import Reports from './pages/Reports'
+import Accounts from './pages/Accounts'
 import Settings from './pages/Settings'
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <MainLayout>
-              <Dashboard />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/transactions"
-          element={
-            <MainLayout>
-              <Transactions />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/insights"
-          element={
-            <MainLayout>
-              <Insights />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/budgets"
-          element={
-            <MainLayout>
-              <Budgets />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/accounts"
-          element={
-            <MainLayout>
-              <Accounts />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/reports"
-          element={
-            <MainLayout>
-              <Reports />
-            </MainLayout>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <MainLayout>
-              <Settings />
-            </MainLayout>
-          }
-        />
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/insights" element={<Insights />} />
+        <Route path="/transactions" element={<Transactions />} />
+        <Route path="/budgets" element={<Budgets />} />
+        <Route path="/reports" element={<Reports />} />
+        <Route path="/accounts" element={<Accounts />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   )

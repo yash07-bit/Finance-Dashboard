@@ -10,6 +10,8 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+.vite
+*.tsbuildinfo
 *.local
 
 # Editor directories and files
@@ -38,7 +40,6 @@ out
 *.swp
 *.swo
 *~
-.editorconfig
 
 # OS
 Thumbs.db
