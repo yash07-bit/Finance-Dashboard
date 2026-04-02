@@ -21,7 +21,7 @@ export default function ProfileSection() {
                 Lumina Desk
               </span>
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary-fixed text-on-primary-fixed">
-                Full Administrator
+                Verified Member
               </span>
             </div>
           </div>
@@ -36,27 +36,22 @@ export default function ProfileSection() {
           <p className="text-on-surface font-semibold text-lg">Lumina Desk</p>
         </div>
         <div className="space-y-1">
-          <label className="text-[10px] font-bold uppercase tracking-wider text-outline">System Role</label>
+          <label className="text-[10px] font-bold uppercase tracking-wider text-outline">Account Type</label>
           <div className="flex items-center gap-2">
-            <p className="text-on-surface font-semibold text-lg">Full Administrator</p>
+            <p className="text-on-surface font-semibold text-lg">Personal Access</p>
             <span className="material-symbols-outlined text-blue-600 text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>
               verified
             </span>
           </div>
         </div>
-        <div className="col-span-2 pt-6">
-          <div className="bg-surface-container-low rounded-xl p-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-slate-500">swap_horiz</span>
-              <div>
-                <p className="text-sm font-bold">Admin View Switch</p>
-                <p className="text-xs text-on-surface-variant">Switch between Administrator and Viewer modes for testing.</p>
-              </div>
-            </div>
-            <div className="relative inline-flex items-center cursor-pointer">
-              <input type="checkbox" className="sr-only peer" defaultChecked />
-              <div className="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-            </div>
+        <div className="col-span-2 pt-6 grid grid-cols-2 gap-4">
+          <div className="bg-surface-container-low rounded-xl p-4">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-outline mb-1">Member Since</p>
+            <p className="text-sm font-semibold text-on-surface">January 2024</p>
+          </div>
+          <div className="bg-surface-container-low rounded-xl p-4">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-outline mb-1">Account Status</p>
+            <p className="text-sm font-semibold text-on-surface">Active and Verified</p>
           </div>
         </div>
       </div>

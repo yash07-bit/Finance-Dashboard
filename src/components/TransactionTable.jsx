@@ -30,9 +30,17 @@ export default function TransactionTable({ transactions = [] }) {
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-100">
-          {tableRows.map((transaction) => (
-            <TransactionRow key={transaction.id} transaction={transaction} />
-          ))}
+          {tableRows.length ? (
+            tableRows.map((transaction) => (
+              <TransactionRow key={transaction.id} transaction={transaction} />
+            ))
+          ) : (
+            <tr>
+              <td colSpan={6} className="px-6 py-12 text-center text-sm text-slate-500 font-medium">
+                No transactions found for the selected filters.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

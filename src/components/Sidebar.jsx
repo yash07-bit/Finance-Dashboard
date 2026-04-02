@@ -24,10 +24,10 @@ export default function Sidebar() {
         <div className="flex items-center gap-2 mb-1">
           <div className="w-8 h-8 rounded-lg bg-primary-accent flex items-center justify-center">
             <span className="material-symbols-outlined text-white text-xl" style={{ fontVariationSettings: "'wght' 600" }}>
-              trending_up
+              shield_lock
             </span>
           </div>
-          <h1 className="text-lg font-bold tracking-tight text-white">FinFlow</h1>
+          <h1 className="text-lg font-bold tracking-tight text-white">NexaVault</h1>
         </div>
         <p className="text-xs text-slate-400 font-medium">Wealth Management</p>
       </div>
@@ -64,15 +64,15 @@ export default function Sidebar() {
       </div>
 
       <div className="mt-6 pt-6 border-t border-primary-accent/10">
-        <div className="flex items-center gap-3 px-2">
+        <Link to="/settings" className="flex items-center gap-3 px-2 rounded-xl py-2 hover:bg-primary-accent/10 transition-colors">
           <div className="w-10 h-10 rounded-full bg-primary-accent/20 flex items-center justify-center">
             <span className="material-symbols-outlined text-primary-accent">account_circle</span>
           </div>
           <div className="min-w-0 flex-1">
             <p className="text-xs font-semibold text-white truncate">Alexander Pierce</p>
-            <p className="text-xs text-slate-400 truncate">Admin</p>
+            <p className="text-xs text-slate-400 truncate">Verified Member</p>
           </div>
-        </div>
+        </Link>
       </div>
     </aside>
   );

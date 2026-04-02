@@ -44,9 +44,15 @@ function useElementWidth() {
 }
 
 export default function BalanceTrendChart({ series }) {
+  const [range, setRange] = useState('6m');
   const { ref, width } = useElementWidth();
-  const firstBalance = series[0]?.balance ?? 0;
-  const latestBalance = series.at(-1)?.balance ?? 0;
+  const filteredSeries = useMemo(() => {
+    if (range === '1y') return series.slice(-12);
+    return series.slice(-6);
+  }, [range, series]);
+
+  const firstBalance = filteredSeries[0]?.balance ?? 0;
+  const latestBalance = filteredSeries.at(-1)?.balance ?? 0;
   const growth = firstBalance ? (((latestBalance - firstBalance) / firstBalance) * 100).toFixed(1) : '0.0';
 
   const chartWidth = useMemo(() => Math.max(320, Math.floor(width || 0)), [width]);
@@ -59,14 +65,28 @@ export default function BalanceTrendChart({ series }) {
           <p className="text-xs text-on-surface-variant">Current balance {formatCurrency(latestBalance)} • {growth}% over period</p>
         </div>
         <div className="flex gap-2">
-          <button className="bg-surface-container-lowest px-4 py-2 rounded-lg text-xs font-semibold text-primary shadow-sm">6 Months</button>
-          <button className="px-4 py-2 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-highest">1 Year</button>
+          <button
+            type="button"
+            onClick={() => setRange('6m')}
+            aria-pressed={range === '6m'}
+            className={`${range === '6m' ? 'bg-white text-primary shadow-sm' : 'text-text-muted hover:bg-white/70'} px-4 py-2 rounded-lg text-xs font-semibold transition-colors`}
+          >
+            6 Months
+          </button>
+          <button
+            type="button"
+            onClick={() => setRange('1y')}
+            aria-pressed={range === '1y'}
+            className={`${range === '1y' ? 'bg-white text-primary shadow-sm' : 'text-text-muted hover:bg-white/70'} px-4 py-2 rounded-lg text-xs font-semibold transition-colors`}
+          >
+            1 Year
+          </button>
         </div>
       </div>
 
       <div ref={ref} className="mt-2 h-[320px] w-full">
         {chartWidth > 0 && (
-          <AreaChart width={chartWidth} height={320} data={series} margin={{ top: 20, right: 12, left: 0, bottom: 0 }}>
+          <AreaChart width={chartWidth} height={320} data={filteredSeries} margin={{ top: 20, right: 12, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="balanceAreaFill" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#031635" stopOpacity={0.42} />
@@ -105,7 +125,7 @@ export default function BalanceTrendChart({ series }) {
       </div>
 
       <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-on-surface-variant">
-        {series.map((item) => (
+        {filteredSeries.map((item) => (
           <div key={item.month} className="rounded-xl bg-surface-container-lowest px-3 py-2 border border-surface-container-highest/60">
             <p className="font-semibold uppercase tracking-widest text-[10px]">{item.month}</p>
             <p className="mt-1 font-bold text-primary">{formatCurrency(item.balance)}</p>

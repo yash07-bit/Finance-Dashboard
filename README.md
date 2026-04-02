@@ -1,4 +1,4 @@
-# FinDash - Finance Dashboard
+# NexaVault - Finance Dashboard
 
 A modern, fully-featured finance dashboard built with React, Tailwind CSS, and Vite. This is a production-ready application with a clean, well-structured codebase.
 

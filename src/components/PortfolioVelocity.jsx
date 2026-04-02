@@ -1,9 +1,13 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { formatCurrency } from '../utils/financeData';
 
 export default function PortfolioVelocity({ portfolioValue, velocityPct, monthlyMovement = [] }) {
   const [selectedMonthIndex, setSelectedMonthIndex] = useState(monthlyMovement.length - 1);
   const pct = `${velocityPct >= 0 ? '+' : ''}${velocityPct.toFixed(1)}%`;
+
+  useEffect(() => {
+    setSelectedMonthIndex(Math.max(monthlyMovement.length - 1, 0));
+  }, [monthlyMovement]);
   
   const maxValue = useMemo(() => {
     if (!monthlyMovement || monthlyMovement.length === 0) return 1;
@@ -27,25 +31,27 @@ export default function PortfolioVelocity({ portfolioValue, velocityPct, monthly
           {selectedMonth.month ? `Revenue for ${selectedMonth.month}` : 'Net asset appreciation since last fiscal year closing.'}
         </p>
       </div>
-      <div className="mt-8 flex items-end gap-1 h-12">
-        {monthlyMovement.map((month, index) => {
-          const percentOfMax = maxValue > 0 ? month.revenue / maxValue : 0;
-          const height = Math.max(4, Math.round(percentOfMax * 48));
-          const isSelected = index === selectedMonthIndex;
-          return (
-            <button
-              key={month.month}
-              onClick={() => setSelectedMonthIndex(index)}
-              className={`w-full rounded-t-sm transition-all cursor-pointer hover:opacity-80 ${
-                isSelected
-                  ? 'bg-primary shadow-md shadow-primary/40'
-                  : 'bg-primary/10'
-              }`}
-              style={{ height: `${height}px` }}
-              title={`${month.month}: ${formatCurrency(month.revenue)}`}
-            />
-          );
-        })}
+      <div className="mt-8 overflow-x-auto">
+        <div className="flex items-end gap-1 h-12" style={{ minWidth: `${Math.max(monthlyMovement.length * 26, 180)}px` }}>
+          {monthlyMovement.map((month, index) => {
+            const percentOfMax = maxValue > 0 ? month.revenue / maxValue : 0;
+            const height = Math.max(4, Math.round(percentOfMax * 48));
+            const isSelected = index === selectedMonthIndex;
+            return (
+              <button
+                key={month.month}
+                onClick={() => setSelectedMonthIndex(index)}
+                className={`w-full rounded-t-sm transition-all cursor-pointer hover:opacity-80 ${
+                  isSelected
+                    ? 'bg-primary shadow-md shadow-primary/40'
+                    : 'bg-primary/10'
+                }`}
+                style={{ height: `${height}px` }}
+                title={`${month.month}: ${formatCurrency(month.revenue)}`}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

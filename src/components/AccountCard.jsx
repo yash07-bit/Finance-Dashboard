@@ -1,11 +1,16 @@
-export default function AccountCard({ account }) {
+export default function AccountCard({ account, onEditAccount }) {
   return (
     <div className="bg-surface-container-lowest p-6 rounded-xl shadow-sm relative overflow-hidden group">
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-emerald-500/18 rounded-tr-[2.5rem] -ml-6 -mb-6 transition-transform group-hover:scale-110 shadow-inner"></div>
       <div className="flex justify-between items-start mb-8">
         <div className={`w-12 h-12 rounded-lg flex items-center justify-center text-white ${account.iconBg}`}>
-          <span className="material-symbols-outlined text-3xl">{account.icon}</span>
+          <span className="material-symbols-outlined text-3xl text-white">{account.icon}</span>
         </div>
-        <button className="material-symbols-outlined text-outline hover:text-primary transition-colors">
+        <button
+          type="button"
+          onClick={() => onEditAccount?.(account)}
+          className="material-symbols-outlined text-outline hover:text-primary transition-colors"
+        >
           settings
         </button>
       </div>

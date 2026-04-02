@@ -4,9 +4,23 @@ import {
   monthlyBalanceSeries as sampleMonthlyBalanceSeries,
   mockTransactions as sampleTransactions,
 } from '../data/sampleFinanceData';
+import { getPreferredCurrency } from '../context/CurrencyPreference';
 
-export const formatCurrency = (value) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(value);
+const CURRENCY_RATES = {
+  USD: 1,
+  EUR: 0.92,
+  GBP: 0.79,
+};
+
+export const convertCurrencyValue = (value, currency = getPreferredCurrency()) => {
+  const rate = CURRENCY_RATES[currency] ?? 1;
+  return value * rate;
+};
+
+export const formatCurrency = (value, currency = getPreferredCurrency()) =>
+  new Intl.NumberFormat('en-US', { style: 'currency', currency, maximumFractionDigits: 2 }).format(
+    convertCurrencyValue(value, currency),
+  );
 
 export const formatShortDate = (isoDate) =>
   new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(isoDate));
@@ -134,30 +148,51 @@ export function getReportMetrics(transactions = sampleTransactions, balances = s
 const WEEKDAY_ORDER = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 export function getWeeklyVolumeAnalysis(transactions = sampleTransactions) {
-  const dailyTotals = WEEKDAY_ORDER.reduce((acc, day) => {
-    acc[day] = 0;
-    return acc;
-  }, {});
+  const parsedTransactions = transactions
+    .map((transaction) => ({
+      ...transaction,
+      parsedDate: new Date(transaction.date),
+    }))
+    .filter((transaction) => !Number.isNaN(transaction.parsedDate.getTime()));
 
-  transactions.forEach((transaction) => {
-    const weekday = WEEKDAY_ORDER[new Date(transaction.date).getDay()];
-    dailyTotals[weekday] += transaction.amount;
+  const latestTransactionDate = parsedTransactions.length
+    ? parsedTransactions.reduce((latest, transaction) => (
+      transaction.parsedDate > latest ? transaction.parsedDate : latest
+    ), parsedTransactions[0].parsedDate)
+    : new Date();
+
+  const windowStart = new Date(latestTransactionDate);
+  windowStart.setHours(0, 0, 0, 0);
+  windowStart.setDate(windowStart.getDate() - 6);
+
+  const dayRows = Array.from({ length: 7 }, (_, index) => {
+    const dayDate = new Date(windowStart);
+    dayDate.setDate(windowStart.getDate() + index);
+
+    const amount = parsedTransactions
+      .filter((transaction) => {
+        const txDate = new Date(transaction.parsedDate);
+        txDate.setHours(0, 0, 0, 0);
+        return txDate.getTime() === dayDate.getTime();
+      })
+      .reduce((sum, transaction) => sum + transaction.amount, 0);
+
+    return {
+      date: dayDate,
+      day: WEEKDAY_ORDER[dayDate.getDay()].slice(0, 3).toUpperCase(),
+      amount,
+    };
   });
 
-  const dayRows = WEEKDAY_ORDER.map((day) => ({
-    day: day.slice(0, 3).toUpperCase(),
-    amount: dailyTotals[day],
-  }));
-
   const totalVolume = dayRows.reduce((sum, row) => sum + row.amount, 0);
-  const avgDaily = totalVolume / WEEKDAY_ORDER.length;
-  const peakVolume = Math.max(...dayRows.map((row) => row.amount));
+  const avgDaily = totalVolume / 7;
+  const peakVolume = Math.max(...dayRows.map((row) => row.amount), 0);
 
   return {
     days: dayRows.map((row) => ({
       ...row,
-      height: peakVolume ? `${Math.max(18, Math.round((row.amount / peakVolume) * 100))}%` : '18%',
-      isHighlight: row.amount === peakVolume,
+      height: peakVolume > 0 ? `${Math.max(12, Math.round((row.amount / peakVolume) * 100))}%` : '12%',
+      isHighlight: peakVolume > 0 && row.amount === peakVolume,
     })),
     avgDaily,
     peakVolume,

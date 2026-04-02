@@ -1,4 +1,10 @@
 export const monthlyBalanceSeries = [
+  { month: 'Jul', balance: 756000 },
+  { month: 'Aug', balance: 781500 },
+  { month: 'Sep', balance: 809200 },
+  { month: 'Oct', balance: 845900 },
+  { month: 'Nov', balance: 889400 },
+  { month: 'Dec', balance: 928300 },
   { month: 'Jan', balance: 962000 },
   { month: 'Feb', balance: 998500 },
   { month: 'Mar', balance: 1012400 },

@@ -1,6 +1,8 @@
 import { formatCurrency, formatShortDate } from '../utils/financeData';
+import { useNavigate } from 'react-router-dom';
 
 export default function RecentTransactions({ transactions = [] }) {
+  const navigate = useNavigate();
 
   const getCategoryColor = (category) => {
     if (category.toLowerCase() === 'investment') return 'bg-success/10 text-success font-semibold';
@@ -15,7 +17,11 @@ export default function RecentTransactions({ transactions = [] }) {
     <section className="bg-white rounded-xl overflow-hidden shadow-md border border-border-light">
       <div className="p-6 border-b border-border-light flex justify-between items-center">
         <h3 className="text-lg font-bold text-primary">Recent Transactions</h3>
-        <button className="text-primary-accent font-semibold text-sm hover:opacity-80 transition-opacity flex items-center gap-1">
+        <button
+          type="button"
+          onClick={() => navigate('/transactions')}
+          className="text-primary-accent font-semibold text-sm hover:opacity-80 transition-opacity flex items-center gap-1"
+        >
           View All
           <span className="material-symbols-outlined text-lg">arrow_forward</span>
         </button>

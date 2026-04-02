@@ -1,5 +1,12 @@
+import { formatCurrency } from '../utils/financeData';
+
 export default function CategoryCard({ category }) {
   const isOverLimit = category.status === 'over';
+  const spent = Number(category.spent) || 0;
+  const limit = Number(category.limit) || 0;
+  const utilizationPct = limit > 0 ? (spent / limit) * 100 : 0;
+  const progressWidth = Math.min(100, Math.max(0, utilizationPct));
+
   const statusColor = {
     normal: 'bg-surface-container-lowest',
     near: 'bg-surface-container-lowest',
@@ -44,13 +51,13 @@ export default function CategoryCard({ category }) {
         </div>
         <div className="text-right flex-shrink-0">
           <p className={`font-semibold ${isOverLimit ? 'text-error' : 'text-primary'}`}>
-            ${category.spent} / ${category.limit}
+            {formatCurrency(spent)} / {formatCurrency(limit)}
           </p>
           <p className="text-[11px] text-on-surface-variant uppercase tracking-wide">Spent vs limit</p>
         </div>
       </div>
       <div className={`h-2 w-full ${isOverLimit ? 'bg-error-container' : 'bg-surface-container-high'} rounded-full overflow-hidden`}>
-        <div className={`h-full ${barColor[category.status]} transition-all`} style={{ width: `${category.percentage}%` }}></div>
+        <div className={`h-full ${barColor[category.status]} transition-all`} style={{ width: `${progressWidth}%` }}></div>
       </div>
     </div>
   );

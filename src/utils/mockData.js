@@ -1,3 +1,11 @@
+import { getPreferredCurrency } from '../context/CurrencyPreference'
+
+const CURRENCY_RATES = {
+  USD: 1,
+  EUR: 0.92,
+  GBP: 0.79,
+}
+
 export const monthlyBalanceSeries = [
   { month: 'Jan', balance: 962000 },
   { month: 'Feb', balance: 998500 },
@@ -35,8 +43,12 @@ export const accounts = [
   { id: 3, name: 'Metal Reserve', balance: 94500, type: 'physical', last4: '0011' },
 ]
 
-export const formatCurrency = (value) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(value)
+export const formatCurrency = (value, currency = getPreferredCurrency()) =>
+  new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency,
+    maximumFractionDigits: 2,
+  }).format(value * (CURRENCY_RATES[currency] ?? 1))
 
 export const formatShortDate = (isoDate) =>
   new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).format(new Date(isoDate))

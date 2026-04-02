@@ -1,5 +1,4 @@
 import CategoryCard from './CategoryCard';
-import { formatCurrency } from '../utils/financeData';
 
 export default function CategoryBreakdown({ rows = [] }) {
   const iconMap = {
@@ -14,9 +13,7 @@ export default function CategoryBreakdown({ rows = [] }) {
 
   const categories = rows.map((row) => ({
     ...row,
-    ...iconMap[row.name],
-    spent: formatCurrency(row.spent).replace('$', ''),
-    limit: formatCurrency(row.limit).replace('$', ''),
+    ...(iconMap[row.name] || { icon: 'category', iconBg: 'bg-slate-100 text-slate-600' }),
   }));
 
   return (

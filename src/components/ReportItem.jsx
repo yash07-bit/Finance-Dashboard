@@ -1,4 +1,4 @@
-export default function ReportItem({ report }) {
+export default function ReportItem({ report, onPreview, onDownload, onStatusToggle }) {
   const statusIcons = {
     verified: { icon: 'check_circle', color: 'text-green-600', label: 'Verified', labelColor: 'text-green-700' },
     signed: { icon: 'history_edu', color: 'text-blue-600', label: 'Signed', labelColor: 'text-blue-700' },
@@ -8,7 +8,8 @@ export default function ReportItem({ report }) {
   const status = statusIcons[report.status];
 
   return (
-    <div className="bg-surface-container-lowest p-6 rounded-2xl flex items-center justify-between group hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
+    <div className="bg-surface-container-lowest p-6 rounded-2xl flex items-center justify-between group hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 relative overflow-hidden">
+      <div className="absolute bottom-0 right-0 w-20 h-20 bg-indigo-500/20 rounded-tl-[2rem] -mr-6 -mb-6 transition-transform group-hover:scale-110 shadow-inner"></div>
       <div className="flex items-center gap-6">
         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${report.iconBg}`}>
           <span className="material-symbols-outlined text-3xl" data-icon={report.icon}>
@@ -33,17 +34,29 @@ export default function ReportItem({ report }) {
           <span className={`text-xs font-bold uppercase ${status.labelColor}`}>{status.label}</span>
         </div>
         <div className="flex items-center gap-2">
-          <button className="p-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all">
+          <button
+            type="button"
+            onClick={() => onPreview?.(report)}
+            className="p-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all"
+          >
             <span className="material-symbols-outlined" data-icon="visibility">
               visibility
             </span>
           </button>
-          <button className="p-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all">
+          <button
+            type="button"
+            onClick={() => onDownload?.(report)}
+            className="p-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-primary transition-all"
+          >
             <span className="material-symbols-outlined" data-icon="download">
               download
             </span>
           </button>
-          <button className="p-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-error transition-all">
+          <button
+            type="button"
+            onClick={() => onStatusToggle?.(report)}
+            className="p-2.5 rounded-xl text-on-surface-variant hover:bg-surface-container-low hover:text-error transition-all"
+          >
             <span className="material-symbols-outlined" data-icon="more_vert">
               more_vert
             </span>

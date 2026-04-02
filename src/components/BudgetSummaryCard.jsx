@@ -4,6 +4,7 @@ export default function BudgetSummaryCard({ totalBudget, totalSpent, remaining }
   return (
     <div className="md:col-span-2 bg-primary rounded-2xl p-6 md:p-7 text-white relative overflow-hidden group">
       <div className="absolute top-0 right-0 w-56 h-56 bg-blue-500/15 rounded-full -mr-20 -mt-20 blur-3xl group-hover:bg-blue-400/20 transition-colors duration-700"></div>
+      <div className="absolute top-0 left-0 w-32 h-32 bg-amber-400/20 rounded-br-[4rem] -ml-10 -mt-10 transition-transform group-hover:scale-110 shadow-inner"></div>
       <div className="relative z-10">
         <div className="flex justify-between items-start mb-8">
           <div>

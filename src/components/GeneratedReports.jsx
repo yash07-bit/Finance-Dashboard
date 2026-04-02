@@ -1,7 +1,9 @@
+import { useMemo, useState } from 'react';
 import ReportItem from './ReportItem';
+import { formatCurrency } from '../utils/financeData';
 
-export default function GeneratedReports() {
-  const reports = [
+export default function GeneratedReports({ reportRange = '12m', reportMetrics }) {
+  const [reports, setReports] = useState([
     {
       id: 1,
       title: 'Annual Fiscal Summary 2023',
@@ -35,7 +37,62 @@ export default function GeneratedReports() {
       date: 'Apr 12, 2024',
       status: 'archiving',
     },
-  ];
+  ]);
+
+  const [previewReportId, setPreviewReportId] = useState(null);
+  const [actionNote, setActionNote] = useState('');
+
+  const previewReport = useMemo(
+    () => reports.find((report) => report.id === previewReportId) ?? null,
+    [reports, previewReportId],
+  );
+
+  const rangeLabel = reportRange === '6m' ? 'Last 6 Months' : 'Last 12 Months';
+
+  const handlePreview = (report) => {
+    setPreviewReportId(report.id);
+  };
+
+  const handleDownload = (report) => {
+    const movement = reportMetrics?.monthlyMovement ?? [];
+    const distribution = reportMetrics?.categoryDistribution ?? [];
+    const content = [
+      `Report: ${report.title}`,
+      `Type: ${report.type}`,
+      `Status: ${report.status}`,
+      `Range: ${rangeLabel}`,
+      `Portfolio Value: ${formatCurrency(reportMetrics?.portfolioValue ?? 0)}`,
+      `Velocity: ${(reportMetrics?.velocityPct ?? 0).toFixed(2)}%`,
+      '',
+      'Monthly Net Movement',
+      'Month,Revenue,Burn',
+      ...movement.map((row) => `${row.month},${row.revenue},${row.burn}`),
+      '',
+      'Category Distribution',
+      'Category,Percentage',
+      ...distribution.map((row) => `${row.name},${row.percentage}%`),
+    ].join('\n');
+
+    const blob = new Blob([content], { type: 'text/plain;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${report.title.toLowerCase().replace(/\s+/g, '-')}-${reportRange}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    setActionNote(`${report.title} downloaded.`);
+  };
+
+  const handleCycleStatus = (report) => {
+    const order = ['archiving', 'signed', 'verified'];
+    const next = order[(order.indexOf(report.status) + 1) % order.length];
+    setReports((current) => current.map((item) => (
+      item.id === report.id ? { ...item, status: next } : item
+    )));
+    setActionNote(`${report.title} moved to ${next} state.`);
+  };
 
   return (
     <div className="bg-surface-container-low/50 rounded-[2.5rem] p-10">
@@ -50,9 +107,37 @@ export default function GeneratedReports() {
       </div>
       <div className="grid grid-cols-1 gap-4">
         {reports.map((report) => (
-          <ReportItem key={report.id} report={report} />
+          <ReportItem
+            key={report.id}
+            report={report}
+            onPreview={handlePreview}
+            onDownload={handleDownload}
+            onStatusToggle={handleCycleStatus}
+          />
         ))}
       </div>
+
+      {actionNote ? <p className="mt-5 text-sm text-on-surface-variant">{actionNote}</p> : null}
+
+      {previewReport ? (
+        <div className="fixed inset-y-0 left-64 right-0 z-[80] bg-slate-900/45 flex items-center justify-center p-4">
+          <div className="w-full max-w-xl rounded-2xl bg-white border border-slate-200 shadow-2xl">
+            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+              <h4 className="text-lg font-bold text-primary">{previewReport.title}</h4>
+              <button type="button" onClick={() => setPreviewReportId(null)} className="p-1 rounded-lg text-slate-500 hover:bg-slate-100">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            <div className="p-6 space-y-3 text-sm text-slate-700">
+              <p><span className="font-semibold text-primary">Type:</span> {previewReport.type}</p>
+              <p><span className="font-semibold text-primary">Status:</span> {previewReport.status}</p>
+              <p><span className="font-semibold text-primary">Range:</span> {rangeLabel}</p>
+              <p><span className="font-semibold text-primary">Portfolio Value:</span> {formatCurrency(reportMetrics?.portfolioValue ?? 0)}</p>
+              <p><span className="font-semibold text-primary">Velocity:</span> {(reportMetrics?.velocityPct ?? 0).toFixed(2)}%</p>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

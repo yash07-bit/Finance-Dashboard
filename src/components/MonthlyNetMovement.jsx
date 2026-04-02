@@ -1,7 +1,6 @@
 export default function MonthlyNetMovement({ movement = [] }) {
-  const maxRevenue = Math.max(...movement.map((m) => m.revenue), 1);
-  const maxBurn = Math.max(...movement.map((m) => m.burn), 1);
-  const maxValue = Math.max(maxRevenue, maxBurn);
+  const chartHeight = 160;
+  const maxCombined = Math.max(...movement.map((m) => (m.revenue || 0) + (m.burn || 0)), 1);
 
   return (
     <div className="col-span-12 lg:col-span-5 bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm">
@@ -18,18 +17,24 @@ export default function MonthlyNetMovement({ movement = [] }) {
           </div>
         </div>
       </div>
-      <div className="flex items-end justify-between h-48 gap-4 px-2">
-        {movement.map((item) => {
-          const burnHeight = Math.max(4, (item.burn / maxValue) * 192);
-          const revenueHeight = Math.max(4, (item.revenue / maxValue) * 192);
-          return (
-            <div key={item.month} className="flex-1 flex flex-col gap-1 items-end justify-end">
-              <div className="w-full bg-secondary-container rounded-t-lg" style={{ height: `${burnHeight}px` }}></div>
-              <div className="w-full bg-primary rounded-b-lg" style={{ height: `${revenueHeight}px` }}></div>
-              <span className="text-[10px] font-bold mt-4 text-on-surface-variant/50">{item.month}</span>
-            </div>
-          );
-        })}
+      <div className="overflow-x-auto">
+        <div className="flex items-end justify-between h-48 gap-3 px-2" style={{ minWidth: `${Math.max(movement.length * 56, 360)}px` }}>
+          {movement.map((item) => {
+            const combined = (item.revenue || 0) + (item.burn || 0);
+            const totalHeight = Math.max(8, (combined / maxCombined) * chartHeight);
+            const burnRatio = combined > 0 ? (item.burn || 0) / combined : 0;
+            const burnHeight = Math.max(4, totalHeight * burnRatio);
+            const revenueHeight = Math.max(4, totalHeight - burnHeight);
+
+            return (
+              <div key={item.month} className="flex-1 min-w-[42px] flex flex-col gap-1 items-end justify-end">
+                <div className="w-full bg-secondary-container rounded-t-lg" style={{ height: `${burnHeight}px` }}></div>
+                <div className="w-full bg-primary rounded-b-lg" style={{ height: `${revenueHeight}px` }}></div>
+                <span className="text-[10px] font-bold mt-4 text-on-surface-variant/50">{item.month}</span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
