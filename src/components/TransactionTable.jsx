@@ -1,5 +1,5 @@
 import TransactionRow from './TransactionRow';
-import { formatCurrency, formatShortDate } from '../utils/mockData';
+import { formatCurrency, formatShortDate } from '../utils/financeData';
 
 export default function TransactionTable({ transactions = [] }) {
   const tableRows = transactions.map((tx) => ({

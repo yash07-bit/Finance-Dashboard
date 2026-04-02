@@ -1,4 +1,4 @@
-import { formatCurrency } from '../utils/mockData';
+import { formatCurrency } from '../utils/financeData';
 
 export default function BudgetInsights({ topCategory }) {
   const categoryName = topCategory?.name ?? 'Operations';

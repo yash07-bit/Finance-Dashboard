@@ -1,5 +1,7 @@
 export default function MonthlyNetMovement({ movement = [] }) {
-  const maxValue = Math.max(...movement.map((m) => Math.max(m.revenue, m.burn)), 1);
+  const maxRevenue = Math.max(...movement.map((m) => m.revenue), 1);
+  const maxBurn = Math.max(...movement.map((m) => m.burn), 1);
+  const maxValue = Math.max(maxRevenue, maxBurn);
 
   return (
     <div className="col-span-12 lg:col-span-5 bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm">
@@ -17,13 +19,17 @@ export default function MonthlyNetMovement({ movement = [] }) {
         </div>
       </div>
       <div className="flex items-end justify-between h-48 gap-4 px-2">
-        {movement.map((item) => (
-          <div key={item.month} className="flex-1 flex flex-col gap-1 items-center">
-            <div className="w-full bg-secondary-container rounded-t-lg" style={{ height: `${Math.max(10, (item.burn / maxValue) * 96)}px` }}></div>
-            <div className="w-full bg-primary rounded-b-lg" style={{ height: `${Math.max(10, (item.revenue / maxValue) * 96)}px` }}></div>
-            <span className="text-[10px] font-bold mt-4 text-on-surface-variant/50">{item.month}</span>
-          </div>
-        ))}
+        {movement.map((item) => {
+          const burnHeight = Math.max(4, (item.burn / maxValue) * 192);
+          const revenueHeight = Math.max(4, (item.revenue / maxValue) * 192);
+          return (
+            <div key={item.month} className="flex-1 flex flex-col gap-1 items-end justify-end">
+              <div className="w-full bg-secondary-container rounded-t-lg" style={{ height: `${burnHeight}px` }}></div>
+              <div className="w-full bg-primary rounded-b-lg" style={{ height: `${revenueHeight}px` }}></div>
+              <span className="text-[10px] font-bold mt-4 text-on-surface-variant/50">{item.month}</span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

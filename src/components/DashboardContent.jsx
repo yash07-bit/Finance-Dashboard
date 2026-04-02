@@ -4,16 +4,18 @@ import CategorySpending from './CategorySpending';
 import RecentTransactions from './RecentTransactions';
 import {
   getCategorySpending,
+  getBalanceSeries,
   getDashboardMetrics,
+  getTransactions,
   getRecentTransactions,
-  mockTransactions,
-  monthlyBalanceSeries,
-} from '../utils/mockData';
+} from '../utils/financeData';
 
 export default function DashboardContent() {
-  const metrics = getDashboardMetrics(mockTransactions, monthlyBalanceSeries);
-  const categorySpending = getCategorySpending(mockTransactions);
-  const recentTransactions = getRecentTransactions(mockTransactions, 5);
+  const transactions = getTransactions();
+  const balanceSeries = getBalanceSeries();
+  const metrics = getDashboardMetrics(transactions, balanceSeries);
+  const categorySpending = getCategorySpending(transactions);
+  const recentTransactions = getRecentTransactions(transactions, 5);
 
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-8">
@@ -29,7 +31,7 @@ export default function DashboardContent() {
 
       {/* Bento Grid Content */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <BalanceTrendChart series={monthlyBalanceSeries} />
+        <BalanceTrendChart series={balanceSeries} />
         <CategorySpending categories={categorySpending} />
       </div>
 

@@ -1,5 +1,5 @@
 import AccountCard from './AccountCard';
-import { formatCurrency } from '../utils/mockData';
+import { formatCurrency } from '../utils/financeData';
 
 export default function AccountsList({ accounts = [] }) {
   const typeStyle = {

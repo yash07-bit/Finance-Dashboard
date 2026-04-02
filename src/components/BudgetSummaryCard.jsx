@@ -1,4 +1,4 @@
-import { formatCurrency } from '../utils/mockData';
+import { formatCurrency } from '../utils/financeData';
 
 export default function BudgetSummaryCard({ totalBudget, totalSpent, remaining }) {
   return (

@@ -1,4 +1,4 @@
-import { formatCurrency } from '../utils/mockData';
+import { formatCurrency } from '../utils/financeData';
 
 export default function SummaryCards({ metrics }) {
   const changeLabel = `${metrics.balanceChangePct >= 0 ? '+' : ''}${metrics.balanceChangePct.toFixed(1)}%`;

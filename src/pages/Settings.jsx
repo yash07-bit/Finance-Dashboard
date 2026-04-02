@@ -4,12 +4,12 @@ import SettingsContent from '../components/SettingsContent';
 
 export default function Settings() {
   return (
-    <div className="flex">
+    <>
       <Sidebar />
-      <div className="flex-1 flex flex-col">
+      <main className="ml-64 min-h-screen">
         <Header />
         <SettingsContent />
-      </div>
-    </div>
+      </main>
+    </>
   );
 }

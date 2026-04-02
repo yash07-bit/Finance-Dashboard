@@ -1,13 +1,7 @@
+import { formatCurrency, getWeeklyVolumeAnalysis } from '../utils/financeData';
+
 export default function VolumeAnalysis() {
-  const days = [
-    { day: 'MON', height: '40%' },
-    { day: 'TUE', height: '65%' },
-    { day: 'WED', height: '55%' },
-    { day: 'THU', height: '90%', isHighlight: true },
-    { day: 'FRI', height: '45%' },
-    { day: 'SAT', height: '30%' },
-    { day: 'SUN', height: '35%' },
-  ];
+  const { days, avgDaily, peakVolume } = getWeeklyVolumeAnalysis();
 
   return (
     <div className="col-span-12 lg:col-span-7 bg-surface-container-lowest p-8 rounded-xl flex flex-col justify-between min-h-[400px]">
@@ -46,11 +40,11 @@ export default function VolumeAnalysis() {
         <div className="flex gap-6">
           <div>
             <p className="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Avg. Daily</p>
-            <p className="text-xl font-bold font-headline">$14,280</p>
+            <p className="text-xl font-bold font-headline">{formatCurrency(avgDaily)}</p>
           </div>
           <div>
             <p className="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold">Peak Vol</p>
-            <p className="text-xl font-bold font-headline">$28,941</p>
+            <p className="text-xl font-bold font-headline">{formatCurrency(peakVolume)}</p>
           </div>
         </div>
         <button className="text-blue-600 text-sm font-bold flex items-center gap-1 group hover:text-blue-700">

@@ -1,4 +1,4 @@
-import { formatCurrency } from '../utils/mockData';
+import { formatCurrency } from '../utils/financeData';
 
 export default function AccountsHeader({ totalLiquidity, changePct }) {
   const changeLabel = `${changePct >= 0 ? '+' : ''}${changePct.toFixed(2)}%`;

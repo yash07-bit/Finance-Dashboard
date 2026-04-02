@@ -18,16 +18,6 @@ export default function Header() {
 
         {/* Right Section */}
         <div className="flex items-center gap-4 ml-auto">
-          {/* Role Toggle */}
-          <div className="flex items-center p-1 bg-primary/5 border border-border-light rounded-lg">
-            <button className="text-xs font-semibold px-3 py-1.5 rounded-md bg-white text-primary shadow-sm">
-              Admin
-            </button>
-            <button className="text-xs font-semibold text-text-muted px-3 py-1.5 rounded-md hover:text-primary hover:bg-white/70 transition-colors">
-              Viewer
-            </button>
-          </div>
-
           {/* Notifications & User */}
           <div className="flex items-center gap-2 pl-2 border-l border-border-light">
             <button className="p-2 rounded-lg text-text-muted hover:text-primary-accent hover:bg-primary/5 transition-colors" title="Notifications">

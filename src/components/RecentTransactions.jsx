@@ -1,4 +1,4 @@
-import { formatCurrency, formatShortDate } from '../utils/mockData';
+import { formatCurrency, formatShortDate } from '../utils/financeData';
 
 export default function RecentTransactions({ transactions = [] }) {
 

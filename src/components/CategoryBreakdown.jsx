@@ -1,5 +1,5 @@
 import CategoryCard from './CategoryCard';
-import { formatCurrency } from '../utils/mockData';
+import { formatCurrency } from '../utils/financeData';
 
 export default function CategoryBreakdown({ rows = [] }) {
   const iconMap = {

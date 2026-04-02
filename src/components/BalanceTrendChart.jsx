@@ -1,21 +1,55 @@
-import { formatCurrency } from '../utils/mockData';
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import { useEffect, useMemo, useRef, useState } from 'react';
+
+import { formatCurrency } from '../utils/financeData';
+
+function BalanceTooltip({ active, payload, label }) {
+  if (!active || !payload?.length) return null;
+
+  const value = payload[0]?.value ?? 0;
+
+  return (
+    <div className="rounded-xl border border-surface-container-highest bg-surface-container-lowest px-4 py-3 shadow-lg">
+      <p className="text-[11px] font-semibold uppercase tracking-widest text-on-surface-variant">{label}</p>
+      <p className="mt-1 text-sm font-bold text-primary">{formatCurrency(value)}</p>
+    </div>
+  );
+}
+
+function useElementWidth() {
+  const ref = useRef(null);
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    if (!ref.current) return undefined;
+
+    const observer = new ResizeObserver((entries) => {
+      const nextWidth = entries[0]?.contentRect?.width ?? 0;
+      setWidth(nextWidth);
+    });
+
+    observer.observe(ref.current);
+
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, width };
+}
 
 export default function BalanceTrendChart({ series }) {
-  const min = Math.min(...series.map((s) => s.balance));
-  const max = Math.max(...series.map((s) => s.balance));
-  const range = Math.max(max - min, 1);
-
-  const points = series
-    .map((item, index) => {
-      const x = (index / (series.length - 1 || 1)) * 800;
-      const y = 180 - ((item.balance - min) / range) * 150;
-      return `${x},${y}`;
-    })
-    .join(' ');
-
+  const { ref, width } = useElementWidth();
   const firstBalance = series[0]?.balance ?? 0;
   const latestBalance = series.at(-1)?.balance ?? 0;
   const growth = firstBalance ? (((latestBalance - firstBalance) / firstBalance) * 100).toFixed(1) : '0.0';
+
+  const chartWidth = useMemo(() => Math.max(320, Math.floor(width || 0)), [width]);
 
   return (
     <div className="lg:col-span-8 bg-surface-container-low rounded-2xl p-8 relative overflow-hidden flex flex-col min-h-[400px]">
@@ -30,35 +64,53 @@ export default function BalanceTrendChart({ series }) {
         </div>
       </div>
 
-      {/* Decorative Chart Logic (SVG Simulation) */}
-      <div className="flex-grow flex items-end justify-between gap-2 relative mt-4">
-        <div className="absolute inset-0 flex items-center justify-center opacity-10">
-          <span className="material-symbols-outlined scale-[10]" data-icon="show_chart">show_chart</span>
-        </div>
+      <div ref={ref} className="mt-2 h-[320px] w-full">
+        {chartWidth > 0 && (
+          <AreaChart width={chartWidth} height={320} data={series} margin={{ top: 20, right: 12, left: 0, bottom: 0 }}>
+            <defs>
+              <linearGradient id="balanceAreaFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#031635" stopOpacity={0.42} />
+                <stop offset="95%" stopColor="#031635" stopOpacity={0.06} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid strokeDasharray="4 4" stroke="rgba(3, 22, 53, 0.12)" vertical={false} />
+            <XAxis
+              dataKey="month"
+              tickLine={false}
+              axisLine={false}
+              interval={0}
+              padding={{ left: 10, right: 10 }}
+              tick={{ fill: 'rgba(3, 22, 53, 0.8)', fontSize: 11, fontWeight: 700 }}
+            />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              width={84}
+              tickFormatter={(value) => `$${Math.round(value / 1000)}k`}
+              tick={{ fill: 'rgba(3, 22, 53, 0.8)', fontSize: 11, fontWeight: 700 }}
+              domain={['dataMin - 40000', 'dataMax + 40000']}
+            />
+            <Tooltip content={<BalanceTooltip />} />
+            <Area
+              type="monotone"
+              dataKey="balance"
+              stroke="#031635"
+              strokeWidth={4}
+              fill="url(#balanceAreaFill)"
+              dot={{ r: 4, fill: '#031635', stroke: '#ffffff', strokeWidth: 2 }}
+              activeDot={{ r: 6, fill: '#031635', stroke: '#ffffff', strokeWidth: 2 }}
+            />
+          </AreaChart>
+        )}
+      </div>
 
-        {/* Simulated Graph Bars with Tonal Nesting */}
-        <div className="w-full h-48 bg-gradient-to-t from-primary/5 to-transparent rounded-t-lg absolute bottom-0"></div>
-
-        <svg className="absolute bottom-0 w-full h-full drop-shadow-xl" preserveAspectRatio="none" viewBox="0 0 800 200">
-          <polyline
-            fill="none"
-            stroke="#031635"
-            strokeLinecap="round"
-            strokeWidth="4"
-            points={points}
-          />
-          <polygon
-            fill="rgba(3, 22, 53, 0.05)"
-            points={`${points} 800,200 0,200`}
-          />
-        </svg>
-
-        {/* Month Markers */}
-        <div className="absolute -bottom-6 w-full flex justify-between text-[10px] font-bold text-on-surface-variant uppercase tracking-widest px-4">
-          {series.map((item) => (
-            <span key={item.month}>{item.month}</span>
-          ))}
-        </div>
+      <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs text-on-surface-variant">
+        {series.map((item) => (
+          <div key={item.month} className="rounded-xl bg-surface-container-lowest px-3 py-2 border border-surface-container-highest/60">
+            <p className="font-semibold uppercase tracking-widest text-[10px]">{item.month}</p>
+            <p className="mt-1 font-bold text-primary">{formatCurrency(item.balance)}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -4,10 +4,10 @@ import MonthlyNetMovement from './MonthlyNetMovement';
 import CategoryDistribution from './CategoryDistribution';
 import GeneratedReports from './GeneratedReports';
 import ReportFooter from './ReportFooter';
-import { getReportMetrics, mockTransactions, monthlyBalanceSeries } from '../utils/mockData';
+import { getReportMetrics } from '../utils/financeData';
 
 export default function ReportsContent() {
-  const reportMetrics = getReportMetrics(mockTransactions, monthlyBalanceSeries);
+  const reportMetrics = getReportMetrics();
 
   return (
     <div className="p-10 space-y-10">
@@ -16,7 +16,7 @@ export default function ReportsContent() {
 
       {/* Bento Grid Stats Section */}
       <div className="grid grid-cols-12 gap-6">
-        <PortfolioVelocity portfolioValue={reportMetrics.portfolioValue} velocityPct={reportMetrics.velocityPct} />
+        <PortfolioVelocity portfolioValue={reportMetrics.portfolioValue} velocityPct={reportMetrics.velocityPct} monthlyMovement={reportMetrics.monthlyMovement} />
         <MonthlyNetMovement movement={reportMetrics.monthlyMovement} />
         <CategoryDistribution categories={reportMetrics.categoryDistribution} />
       </div>

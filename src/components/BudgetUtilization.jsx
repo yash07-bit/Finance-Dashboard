@@ -20,7 +20,7 @@ export default function BudgetUtilization({ utilizationPct, variancePct }) {
         </div>
       </div>
       <p className="text-sm text-on-surface-variant leading-relaxed">
-        Your spending is currently <span className="text-primary font-bold">{direction} forecast</span> by {varianceLabel} compared to last month.
+        Your spending is currently <span className="text-primary font-bold">{direction} target</span> by {varianceLabel} based on the latest budget totals.
       </p>
     </div>
   );

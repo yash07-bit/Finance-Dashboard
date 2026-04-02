@@ -4,12 +4,13 @@ import BudgetUtilization from './BudgetUtilization';
 import CategoryBreakdown from './CategoryBreakdown';
 import AddCategoryForm from './AddCategoryForm';
 import BudgetInsights from './BudgetInsights';
-import { getBudgetMetrics, mockTransactions } from '../utils/mockData';
+import { getBudgetMetrics } from '../utils/financeData';
 
 export default function BudgetsContent() {
-  const budgetMetrics = getBudgetMetrics(mockTransactions);
+  const budgetMetrics = getBudgetMetrics();
   const topCategory = [...budgetMetrics.categoryRows].sort((a, b) => b.spent - a.spent)[0];
-  const variancePct = -4.2;
+  const targetUtilizationPct = 85;
+  const variancePct = budgetMetrics.utilizationPct - targetUtilizationPct;
 
   return (
     <div className="p-8 min-h-screen">

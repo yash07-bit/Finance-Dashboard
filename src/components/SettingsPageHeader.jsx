@@ -9,7 +9,7 @@ export default function SettingsPageHeader() {
         <button className="px-5 py-2.5 bg-surface-container-low text-primary font-semibold rounded-xl hover:bg-surface-container-high transition-colors scale-98-on-click">
           Discard
         </button>
-        <button className="px-5 py-2.5 bg-primary text-on-primary font-semibold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-primary/10 scale-98-on-click">
+        <button className="px-5 py-2.5 bg-primary text-white font-semibold rounded-xl hover:opacity-90 transition-opacity shadow-lg shadow-primary/10 scale-98-on-click">
           Save Changes
         </button>
       </div>
