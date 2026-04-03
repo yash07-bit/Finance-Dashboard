@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { getCategorySpending, getBudgetMetrics } from '../utils/financeData';
-import { getTransactions } from '../utils/financeData';
+import { useAppData } from '../context/useAppData';
 
 const CATEGORY_GROUPS = {
   'Equities': ['stocks', 'investments', 'trading'],
@@ -15,7 +15,8 @@ const categoryColors = {
 };
 
 export default function AllocationMix() {
-  const transactions = getTransactions();
+  const { data } = useAppData();
+  const transactions = data.transactions;
   const categorySpending = getCategorySpending(transactions);
   const budgetMetrics = getBudgetMetrics(transactions);
 

@@ -1,19 +1,22 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import AccountsHeader from './AccountsHeader';
 import AccountsList from './AccountsList';
 import WalletActivity from './WalletActivity';
 import SecurityHealth from './SecurityHealth';
-import { getAccounts, getBalanceSeries } from '../utils/financeData';
+import { getBalanceSeries } from '../utils/financeData';
+import { useAppData } from '../context/useAppData';
 
 export default function AccountsContent() {
-  const [accounts, setAccounts] = useState(() => getAccounts());
+  const { data, updateAccount, addAccount: addAccountToContext } = useAppData();
+  const accounts = data.accounts;
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [editingAccountId, setEditingAccountId] = useState(null);
   const [newAccount, setNewAccount] = useState({ name: '', institution: '', balance: '', type: 'cash' });
   const [editAccount, setEditAccount] = useState({ name: '', balance: '', type: 'banking', last4: '' });
 
-  const balanceSeries = getBalanceSeries();
-  const totalLiquidity = useMemo(() => accounts.reduce((sum, account) => sum + account.balance, 0), [accounts]);
+  // Pass transactions to calculate dynamic balance series
+  const balanceSeries = getBalanceSeries(data.transactions);
+  const totalLiquidity = accounts.reduce((sum, account) => sum + account.balance, 0);
   const firstBalance = balanceSeries[0]?.balance ?? 0;
   const latestBalance = balanceSeries.at(-1)?.balance ?? 0;
   const liquidityChangePct = firstBalance ? ((latestBalance - firstBalance) / firstBalance) * 100 : 0;
@@ -41,17 +44,12 @@ export default function AccountsContent() {
 
     if (!normalizedName || !Number.isFinite(parsedBalance) || parsedBalance < 0) return;
 
-    setAccounts((current) => current.map((account) => (
-      account.id === editingAccountId
-        ? {
-            ...account,
-            name: normalizedName,
-            balance: parsedBalance,
-            type: editAccount.type,
-            last4: normalizedLast4 || account.last4,
-          }
-        : account
-    )));
+    updateAccount(editingAccountId, {
+      name: normalizedName,
+      balance: parsedBalance,
+      type: editAccount.type,
+      last4: normalizedLast4,
+    });
     setEditingAccountId(null);
   };
 
@@ -64,16 +62,12 @@ export default function AccountsContent() {
 
     if (!accountName || !institution || !Number.isFinite(balance) || balance <= 0) return;
 
-    setAccounts((current) => [
-      {
-        id: Date.now(),
-        name: accountName,
-        institution,
-        balance,
-        type: newAccount.type,
-      },
-      ...current,
-    ]);
+    addAccountToContext({
+      name: accountName,
+      institution,
+      balance,
+      type: newAccount.type,
+    });
     setNewAccount({ name: '', institution: '', balance: '', type: 'cash' });
     setShowConnectModal(false);
   };

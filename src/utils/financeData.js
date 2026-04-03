@@ -29,8 +29,53 @@ export function getTransactions(transactions = sampleTransactions) {
   return [...transactions];
 }
 
-export function getBalanceSeries(series = sampleMonthlyBalanceSeries) {
-  return [...series];
+export function calculateBalanceSeriesFromTransactions(transactions = sampleTransactions, startingBalance = 100000) {
+  if (!transactions || transactions.length === 0) {
+    return [
+      { month: 'Apr', balance: startingBalance }
+    ];
+  }
+
+  // Group transactions by month
+  const monthlyData = {};
+  let runningBalance = startingBalance;
+
+  // Sort by date
+  const sorted = [...transactions].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  sorted.forEach((tx) => {
+    const date = new Date(tx.date);
+    const monthKey = date.toLocaleString('default', { month: 'short', year: '2-digit' });
+    
+    if (!monthlyData[monthKey]) {
+      monthlyData[monthKey] = { netChange: 0, date };
+    }
+
+    const amount = tx.type === 'income' ? tx.amount : -tx.amount;
+    monthlyData[monthKey].netChange += amount;
+  });
+
+  // Build series with running balance
+  const series = Object.entries(monthlyData)
+    .sort((a, b) => a[1].date - b[1].date)
+    .map(([month, data]) => {
+      runningBalance += data.netChange;
+      return {
+        month,
+        balance: Math.max(0, runningBalance),
+        change: data.netChange,
+      };
+    });
+
+  return series;
+}
+
+export function getBalanceSeries(transactions = sampleTransactions) {
+  // If transactions are provided, calculate from them; otherwise use sample
+  if (transactions && transactions.length > 0) {
+    return calculateBalanceSeriesFromTransactions(transactions);
+  }
+  return [...sampleMonthlyBalanceSeries];
 }
 
 export function getAccounts(accounts = sampleAccounts) {

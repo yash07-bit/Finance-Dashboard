@@ -1,7 +1,10 @@
 import { getMarketSignals } from '../utils/financeData';
+import { useAppData } from '../context/useAppData';
+import { useMemo } from 'react';
 
 export default function MarketSentiment() {
-  const indicators = getMarketSignals();
+  const { data } = useAppData();
+  const indicators = useMemo(() => getMarketSignals(data.transactions), [data.transactions]);
 
   return (
     <div className="col-span-12 lg:col-span-8 bg-white p-8 rounded-xl overflow-hidden relative min-h-[300px] border border-slate-200 shadow-sm">

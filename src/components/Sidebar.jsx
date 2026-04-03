@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
+import ExcelUpload from './ExcelUpload';
 
 export default function Sidebar() {
   const location = useLocation();
@@ -48,6 +49,10 @@ export default function Sidebar() {
           </Link>
         ))}
       </nav>
+
+      <div className="mb-4">
+        <ExcelUpload variant="sidebar" />
+      </div>
 
       <div className="border-t border-primary-accent/10 pt-4 mt-auto">
         <Link

@@ -1,134 +1,210 @@
-# NexaVault - Finance Dashboard
+# Finance Dashboard - Personal Finance Management
 
-A modern, fully-featured finance dashboard built with React, Tailwind CSS, and Vite. This is a production-ready application with a clean, well-structured codebase.
+A modern, fully-featured personal finance dashboard built with React 19, Tailwind CSS, and Vite. Real-time data synchronization with Excel import, dynamic analytics, and comprehensive financial management.
 
-## 🎯 Features
+## ✨ Features
 
-- **Dashboard** - Overview of financial metrics and transactions
-- **Analytics** - Detailed spending analysis and insights
-- **Accounts** - Manage bank and savings accounts
-- **Cards** - Credit and debit card management
-- **Settings** - User preferences and security settings
-- **Responsive Design** - Mobile, tablet, and desktop optimized
-- **Dark Theme** - Modern dark UI with Tailwind CSS
-- **Real-time Navigation** - React Router v6 integration
+### Core Functionality
+- **Dashboard** - Real-time financial overview with balance trends and spending analysis
+- **Transactions** - Complete transaction management with filtering and sorting
+- **Budgets** - Smart budget tracking with category management
+- **Accounts** - Multi-account management with balance tracking
+- **Insights** - Advanced analytics with spending patterns and trends
+- **Reports** - Detailed financial reports with monthly comparisons
+- **Settings** - User preferences and security configuration
 
-## 📁 Project Structure
+### Advanced Features
+- **Excel Import** - Upload financial data from Excel files (XLSX)
+- **Bidirectional Sync** - Data reflects across all pages in real-time
+- **Dynamic Charts** - Responsive charts with realistic data fluctuations
+- **Category Analysis** - Spending breakdown and allocation insights
+- **Budget Tracking** - Real-time notifications when approaching limits
+- **Monthly Trends** - Historical data analysis
+- **Currency Support** - Multi-currency conversion (USD, EUR, GBP)
 
-```
-src/
-├── components/
-│   ├── shared/
-│   │   ├── Sidebar.jsx           # Navigation sidebar
-│   │   ├── Header.jsx            # Top header with search
-│   │   └── Card.jsx              # Reusable card components
-│   └── dashboard/
-│       ├── DashboardComponents.jsx  # Dashboard components
-│       └── AnalyticsComponents.jsx  # Analytics components
-├── pages/
-│   ├── Dashboard.jsx             # Main dashboard
-│   ├── Analytics.jsx             # Analytics page
-│   ├── Accounts.jsx              # Accounts page
-│   ├── Cards.jsx                 # Cards page
-│   ├── Settings.jsx              # Settings page
-│   └── NotFound.jsx              # 404 page
-├── layouts/
-│   └── MainLayout.jsx            # Main layout wrapper
-├── utils/
-│   ├── constants.js              # Constants
-│   └── mockData.js               # Mock data
-├── App.jsx                       # Main app
-├── main.jsx                      # Entry point
-└── index.css                     # Tailwind styles
-```
+## 🚀 Getting Started
 
-## 🛠️ Tech Stack
+### Prerequisites
+- Node.js 16+ 
+- npm 8+ or yarn 4+
+- Modern web browser
 
-- **React** 19
-- **Tailwind CSS** 3
-- **React Router** v6
-- **Lucide React** Icons
-- **Vite** Build tool
-
-## 📦 Quick Start
+### Installation
 
 ```bash
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
 ```
 
-Visit `http://localhost:5173/`
+The application will start on `http://localhost:5174`
 
-## 📋 Routes
-
-- `/` - Dashboard
-- `/analytics` - Analytics
-- `/accounts` - Accounts
-- `/cards` - Cards
-- `/settings` - Settings
-
-## 🎨 Design
-
-- Custom dark theme with Tailwind
-- Fully responsive (mobile-first)
-- Pure Tailwind CSS (no custom CSS files)
-- Smooth animations and transitions
-
-## 🔐 Security Features
-
-- Password management
-- 2-Factor authentication
-- Email alerts
-- Transaction notifications
-- Fraud alerts
-
-## 📊 Mock Data Included
-
-- 8+ transactions
-- 6 months of spending data
-- 3 accounts
-- 2 credit cards
-- Financial metrics
-
-## 🎯 Best Practices
-
-✅ Clean component architecture
-✅ Logical folder structure
-✅ Reusable components
-✅ Utility-first styling
-✅ React Router v6
-✅ Responsive design
-✅ Dark theme optimized
-
-## 🚀 Production Build
+### Build for Production
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## 📝 Git Configuration
+## 📁 Project Structure
 
-Comprehensive `.gitignore` included:
-- node_modules, dist, build
-- IDE files (.vscode, .idea)
-- Environment variables
-- OS files
+```
+src/
+├── components/              # React components (50+)
+├── context/
+│   ├── DataContext.jsx      # Global state management
+│   └── useAppData.js        # Custom hook for data access
+├── pages/
+│   ├── Dashboard.jsx
+│   ├── Transactions.jsx
+│   ├── Budgets.jsx
+│   ├── Accounts.jsx
+│   ├── Reports.jsx
+│   ├── Insights.jsx
+│   └── Settings.jsx
+├── utils/
+│   ├── financeData.js       # Data calculations
+│   └── mockData.js          # Sample data
+└── App.jsx
+```
+
+## 🛠️ Tech Stack
+
+- **React** 19.2.4
+- **React Router DOM** 6.22.0
+- **Tailwind CSS** 3.4.3
+- **Recharts** 2.10.3
+- **Lucide React** 0.408.0
+- **XLSX** 0.18.5
+- **Vite** 5.0.0
+
+## 📊 Data Management
+
+The app uses React Context for global state management:
+
+```javascript
+import { useAppData } from '../context/useAppData';
+
+const MyComponent = () => {
+  const { data, addTransaction, uploadExcelData } = useAppData();
+};
+```
+
+### Excel Import Format
+
+Create `.xlsx` files with these sheets:
+
+**Transactions Sheet:**
+```
+Date | Description | Category | Amount | Type | Account | Status
+```
+
+**Budgets Sheet:**
+```
+Category | Budget_Limit | Month | Spent
+```
+
+**Accounts Sheet:**
+```
+Account_Name | Account_Type | Balance | Currency
+```
+
+## 💡 Usage Guide
+
+### Uploading Financial Data
+1. Click **"Import Excel"** in sidebar
+2. Select `.xlsx` file
+3. Data auto-populates all pages
+4. Charts update instantly
+
+### Managing Data
+- Real-time sync across all pages
+- Add/edit transactions, budgets, accounts
+- Automatic chart recalculation
+- Filter and sort transactions
+
+## 📈 Features
+
+- **Real-time Balance Tracking** - Dynamic calculations from transactions
+- **Smart Budget Management** - Monitors spending with alerts
+- **Dynamic Analytics** - Volume analysis, top categories, trends
+- **Data Synchronization** - Instant updates everywhere
+
+## 🔄 Automatic Data Sync
+
+Changes reflect instantly:
+- ✅ Add transaction → Dashboard updates
+- ✅ Edit budget → Reports recalculate  
+- ✅ Upload Excel → All pages sync
+- ✅ Add account → Balances update
+
+## ⚙️ Configuration
+
+### Currency Preferences
+Select in Settings: USD, EUR, or GBP
+
+### Environment Variables
+```bash
+VITE_API_URL=your_api_url  # Optional: for future backend
+```
+
+## 📱 Browser Support
+
+- Chrome (latest 2 versions)
+- Firefox (latest 2 versions)
+- Safari (latest 2 versions)
+- Edge (latest 2 versions)
+
+## 📚 Generate Sample Data
+
+```bash
+python3 create_excel.py
+```
+
+Creates `demo-financial-data.xlsx` with:
+- 62 transactions (3 months)
+- 8 accounts
+- 18 budgets
+- 14 categories
+
+## 🔒 Important Notes
+
+- **Data Storage**: Client-side only (in memory)
+- **Persistence**: Resets on page refresh
+- **Security**: Demo mode (no authentication)
+
+**For Production**: Add backend API, database, and auth.
 
 ## 🚀 Future Enhancements
 
-- Real API integration
-- Authentication system
-- Chart.js/Recharts integration
-- Budget tracking
-- Transaction categorization
-- Multi-currency support
-- Light/Dark theme toggle
+- [ ] Backend API
+- [ ] User authentication
+- [ ] Data persistence
+- [ ] PDF export
+- [ ] Mobile apps
+- [ ] AI insights
+- [ ] Bank API integration
+
+## 🐛 Troubleshooting
+
+**Excel import not working?**
+- Verify `.xlsx` format
+- Check sheet names match
+- Try demo file first
+
+**Data not appearing?**
+- Refresh page (Cmd+R / Ctrl+R)
+- Check browser console
+- Upload again
 
 ## 📄 License
 
-Open source - available for personal and commercial use.
+MIT License - Free to use
 
 ---
 
-**Built with React & Tailwind CSS** ❤️
+**Happy Tracking! 📊💰**
+
+**Version**: 1.0.0 | **Status**: Production Ready

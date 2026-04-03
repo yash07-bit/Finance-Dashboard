@@ -1,21 +1,27 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import BudgetHeader from './BudgetHeader';
 import BudgetSummaryCard from './BudgetSummaryCard';
 import BudgetUtilization from './BudgetUtilization';
 import CategoryBreakdown from './CategoryBreakdown';
 import AddCategoryForm from './AddCategoryForm';
-import { formatCurrency, getBudgetMetrics, getTransactions } from '../utils/financeData';
+import { formatCurrency, getBudgetMetrics } from '../utils/financeData';
+import { useAppData } from '../context/useAppData';
 
 export default function BudgetsContent() {
-  const transactions = getTransactions();
+  const { data, addBudget } = useAppData();
+  const transactions = data.transactions;
+  const [budgetLimits, setBudgetLimits] = useState({});
+
   const baseMetrics = useMemo(() => getBudgetMetrics(transactions), [transactions]);
-  const [budgetLimits, setBudgetLimits] = useState(() => {
+
+  // Update budget limits when transactions change
+  useEffect(() => {
     const limits = {};
     baseMetrics.categoryRows.forEach((row) => {
       limits[row.name] = row.limit;
     });
-    return limits;
-  });
+    setBudgetLimits(limits);
+  }, [baseMetrics]);
 
   const budgetMetrics = useMemo(
     () => getBudgetMetrics(transactions, budgetLimits),
@@ -26,6 +32,15 @@ export default function BudgetsContent() {
   const handleCreateCategory = ({ name, limit }) => {
     if (!name || !Number.isFinite(limit) || limit <= 0) return;
 
+    // Add to context
+    addBudget({
+      name,
+      limit,
+      month: new Date().toLocaleString('default', { month: 'long' }),
+      threshold: 85,
+    });
+
+    // Also update local state
     setBudgetLimits((current) => ({
       ...current,
       [name]: limit,

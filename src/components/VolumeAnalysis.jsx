@@ -1,7 +1,14 @@
 import { formatCurrency, getWeeklyVolumeAnalysis } from '../utils/financeData';
+import { useAppData } from '../context/useAppData';
+import { useMemo } from 'react';
 
 export default function VolumeAnalysis() {
-  const { days, avgDaily, peakVolume } = getWeeklyVolumeAnalysis();
+  const { data } = useAppData();
+
+  const { days, avgDaily, peakVolume } = useMemo(() => 
+    getWeeklyVolumeAnalysis(data.transactions), 
+    [data.transactions]
+  );
 
   const handleDownloadExcel = () => {
     const rows = [

@@ -5,12 +5,15 @@ import MonthlyNetMovement from './MonthlyNetMovement';
 import CategoryDistribution from './CategoryDistribution';
 import GeneratedReports from './GeneratedReports';
 import ReportFooter from './ReportFooter';
-import { getReportMetrics, getBalanceSeries, getTransactions, formatCurrency } from '../utils/financeData';
+import { getReportMetrics, getBalanceSeries, formatCurrency } from '../utils/financeData';
+import { useAppData } from '../context/useAppData';
 
 export default function ReportsContent() {
+  const { data } = useAppData();
   const [range, setRange] = useState('12m');
-  const allTransactions = getTransactions();
-  const allBalances = getBalanceSeries();
+  const allTransactions = data.transactions;
+  // Pass transactions to calculate dynamic balance series
+  const allBalances = getBalanceSeries(allTransactions);
 
   const filteredBalances = useMemo(
     () => (range === '6m' ? allBalances.slice(-6) : allBalances.slice(-12)),

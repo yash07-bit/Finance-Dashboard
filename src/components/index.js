@@ -50,3 +50,4 @@ export { default as TwoFactorAuth } from './TwoFactorAuth';
 export { default as PasswordProtocol } from './PasswordProtocol';
 export { default as SecurityEvents } from './SecurityEvents';
 export { default as SettingsContent } from './SettingsContent';
+export { default as ExcelUpload } from './ExcelUpload';

@@ -4,11 +4,12 @@ import PageHeader from './PageHeader';
 import FilterBar from './FilterBar';
 import TransactionTable from './TransactionTable';
 import Pagination from './Pagination';
-import { getRecentTransactions, getTransactions } from '../utils/financeData';
+import { useAppData } from '../context/useAppData';
 
 export default function TransactionsContent() {
   const pageSize = 5;
-  const [transactions, setTransactions] = useState(() => getRecentTransactions(getTransactions(), 9999));
+  const { data, addTransaction } = useAppData();
+  const [transactions, setTransactions] = useState(() => data.transactions);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedDateRange, setSelectedDateRange] = useState('30d');
@@ -22,6 +23,12 @@ export default function TransactionsContent() {
     type: 'expense',
     date: new Date().toISOString().slice(0, 10),
   });
+
+  // Sync with context data - critical for data reflection
+  useEffect(() => {
+    setTransactions(data.transactions);
+    setPage(1); // Reset to first page when data changes
+  }, [data.transactions]);
 
   const categoryOptions = useMemo(
     () => [...new Set(transactions.map((tx) => tx.category))].sort((a, b) => a.localeCompare(b)),
@@ -87,20 +94,15 @@ export default function TransactionsContent() {
       return;
     }
 
-    const nextId = transactions.length ? Math.max(...transactions.map((tx) => tx.id)) + 1 : 1;
-
-    setTransactions((previousTransactions) => ([
-      {
-        id: nextId,
-        date: newTransaction.date,
-        description: newTransaction.description.trim(),
-        category: newTransaction.category.trim(),
-        icon: newTransaction.type === 'income' ? 'payments' : 'receipt_long',
-        amount,
-        type: newTransaction.type,
-      },
-      ...previousTransactions,
-    ]));
+    // Add to context instead of local state
+    addTransaction({
+      date: newTransaction.date,
+      description: newTransaction.description.trim(),
+      category: newTransaction.category.trim(),
+      icon: newTransaction.type === 'income' ? 'payments' : 'receipt_long',
+      amount,
+      type: newTransaction.type,
+    });
 
     closeAddModal();
     setPage(1);

@@ -19,6 +19,23 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+*.su
+*.swp
+*.swo
+*~
+
+# Data generation and sample files - DO NOT PUSH
+create_excel.py
+demo-financial-data.xlsx
+~$*.xlsx
+*.pyc
+__pycache__/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.DS_Store
 *.suo
 *.ntvs*
 *.njsproj

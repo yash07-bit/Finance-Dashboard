@@ -9,6 +9,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { formatCurrency } from '../utils/financeData';
+import { useAppData } from '../context/useAppData';
 
 function BalanceTooltip({ active, payload, label }) {
   if (!active || !payload?.length) return null;
@@ -43,9 +44,52 @@ function useElementWidth() {
   return { ref, width };
 }
 
-export default function BalanceTrendChart({ series }) {
+export default function BalanceTrendChart({ series: propSeries }) {
+  const { data } = useAppData();
   const [range, setRange] = useState('6m');
   const { ref, width } = useElementWidth();
+
+  // Use provided series or calculate from context transactions
+  const series = useMemo(() => {
+    if (propSeries && propSeries.length > 0) {
+      return propSeries;
+    }
+    
+    if (data.transactions.length > 0) {
+      // Calculate from transactions
+      const monthlyData = {};
+      let startBalance = 100000;
+      let runningBalance = startBalance;
+
+      [...data.transactions]
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .forEach((tx) => {
+          const date = new Date(tx.date);
+          const monthKey = date.toLocaleString('default', { month: 'short', year: '2-digit' });
+          
+          if (!monthlyData[monthKey]) {
+            monthlyData[monthKey] = { netChange: 0, date };
+          }
+
+          const amount = tx.type === 'income' ? tx.amount : -tx.amount;
+          monthlyData[monthKey].netChange += amount;
+        });
+
+      return Object.entries(monthlyData)
+        .sort((a, b) => a[1].date - b[1].date)
+        .map(([month, data]) => {
+          runningBalance += data.netChange;
+          return {
+            month,
+            balance: Math.max(0, runningBalance),
+            change: data.netChange,
+          };
+        });
+    }
+
+    return propSeries || [];
+  }, [propSeries, data.transactions]);
+
   const filteredSeries = useMemo(() => {
     if (range === '1y') return series.slice(-12);
     return series.slice(-6);
