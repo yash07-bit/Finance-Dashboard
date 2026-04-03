@@ -8,7 +8,7 @@ import { useAppData } from '../context/useAppData';
 
 export default function TransactionsContent() {
   const pageSize = 5;
-  const { data, addTransaction, updateTransaction, deleteTransaction } = useAppData();
+  const { data, addTransaction, updateTransaction, deleteTransaction, canEdit } = useAppData();
   const [transactions, setTransactions] = useState(() => data.transactions);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
@@ -30,6 +30,12 @@ export default function TransactionsContent() {
     setTransactions(data.transactions);
     setPage(1); // Reset to first page when data changes
   }, [data.transactions]);
+
+  useEffect(() => {
+    if (!canEdit) {
+      closeAddModal();
+    }
+  }, [canEdit]);
 
   const categoryOptions = useMemo(
     () => [...new Set(transactions.map((tx) => tx.category))].sort((a, b) => a.localeCompare(b)),
@@ -98,6 +104,8 @@ export default function TransactionsContent() {
     }
 
     // Add to context instead of local state
+    if (!canEdit) return;
+
     addTransaction({
       date: newTransaction.date,
       description: newTransaction.description.trim(),
@@ -140,6 +148,8 @@ export default function TransactionsContent() {
       type: newTransaction.type,
     };
 
+    if (!canEdit) return;
+
     if (editingTransactionId) {
       updateTransaction(editingTransactionId, transactionPayload);
     } else {
@@ -154,6 +164,8 @@ export default function TransactionsContent() {
     const confirmDelete = window.confirm(`Delete ${transaction.description}?`);
     if (!confirmDelete) return;
 
+    if (!canEdit) return;
+
     deleteTransaction(transaction.id);
     setPage(1);
   };
@@ -161,7 +173,7 @@ export default function TransactionsContent() {
   return (
     <div className="flex flex-col flex-1">
       {/* Page Header */}
-      <PageHeader totalTransactions={filteredTransactions.length} onAddTransaction={openAddModal} />
+      <PageHeader totalTransactions={filteredTransactions.length} onAddTransaction={openAddModal} canEdit={canEdit} />
 
       {/* Filter Bar */}
       <FilterBar
@@ -173,7 +185,7 @@ export default function TransactionsContent() {
         onCategoryChange={setSelectedCategory}
         onTypeChange={setSelectedType}
         onDateRangeChange={setSelectedDateRange}
-        onSortToggle={() => setSortOrder((currentSort) => (currentSort === 'newest' ? 'oldest' : 'newest'))}
+          onSortToggle={() => setSortOrder((currentSort) => (currentSort === 'newest' ? 'oldest' : 'newest'))}
       />
 
       {/* Transaction Content */}
@@ -182,6 +194,7 @@ export default function TransactionsContent() {
           transactions={pageTransactions}
           onEditTransaction={openEditModal}
           onDeleteTransaction={handleDeleteTransaction}
+          canEdit={canEdit}
         />
         <Pagination
           page={page}
@@ -191,7 +204,7 @@ export default function TransactionsContent() {
         />
       </div>
 
-      {isAddModalOpen && (
+      {isAddModalOpen && canEdit && (
         <div className="fixed inset-y-0 left-0 md:left-64 right-0 z-[70] flex items-center justify-center bg-slate-900/45 p-4">
           <div className="w-full max-w-lg rounded-2xl bg-white border border-slate-200 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="px-4 md:px-6 py-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white">
@@ -211,6 +224,7 @@ export default function TransactionsContent() {
                     onChange={(event) => setNewTransaction((current) => ({ ...current, description: event.target.value }))}
                     placeholder="e.g. Office Internet"
                     className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-accent/30 focus:border-primary-accent"
+                    disabled={!canEdit}
                     required
                   />
                 </div>
@@ -223,6 +237,7 @@ export default function TransactionsContent() {
                     onChange={(event) => setNewTransaction((current) => ({ ...current, category: event.target.value }))}
                     placeholder="e.g. Operations"
                     className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-accent/30 focus:border-primary-accent"
+                    disabled={!canEdit}
                     required
                   />
                 </div>
@@ -233,6 +248,7 @@ export default function TransactionsContent() {
                     value={newTransaction.type}
                     onChange={(event) => setNewTransaction((current) => ({ ...current, type: event.target.value }))}
                     className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-accent/30 focus:border-primary-accent"
+                    disabled={!canEdit}
                   >
                     <option value="expense">Expense</option>
                     <option value="income">Income</option>
@@ -249,6 +265,7 @@ export default function TransactionsContent() {
                     onChange={(event) => setNewTransaction((current) => ({ ...current, amount: event.target.value }))}
                     placeholder="0.00"
                     className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-accent/30 focus:border-primary-accent"
+                    disabled={!canEdit}
                     required
                   />
                 </div>
@@ -260,6 +277,7 @@ export default function TransactionsContent() {
                     value={newTransaction.date}
                     onChange={(event) => setNewTransaction((current) => ({ ...current, date: event.target.value }))}
                     className="w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-accent/30 focus:border-primary-accent"
+                    disabled={!canEdit}
                     required
                   />
                 </div>
@@ -269,7 +287,7 @@ export default function TransactionsContent() {
                 <button type="button" onClick={closeAddModal} className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold hover:bg-slate-50">
                   Cancel
                 </button>
-                <button type="submit" className="px-5 py-2.5 rounded-xl bg-primary text-white font-semibold hover:opacity-90">
+                <button type="submit" disabled={!canEdit} className="px-5 py-2.5 rounded-xl bg-primary text-white font-semibold hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed">
                   {editingTransactionId ? 'Update Transaction' : 'Save Transaction'}
                 </button>
               </div>

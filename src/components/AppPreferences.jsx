@@ -1,4 +1,4 @@
-import { useCurrencyPreference } from '../context/CurrencyPreference';
+import { useCurrencyPreference } from '../context/currencyPreferenceStore';
 
 export default function AppPreferences() {
   const { currency, setCurrency } = useCurrencyPreference();

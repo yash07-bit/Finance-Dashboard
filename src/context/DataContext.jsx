@@ -1,17 +1,40 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { getTransactions, getAccounts } from '../utils/financeData';
 
 const DataContext = createContext();
 
+const ROLE_STORAGE_KEY = 'nexavault-role';
+
 export function DataProvider({ children }) {
+  const [role, setRole] = useState(() => {
+    if (typeof window === 'undefined') return 'admin';
+    return window.localStorage.getItem(ROLE_STORAGE_KEY) || 'admin';
+  });
   const [data, setData] = useState({
     transactions: getTransactions(),
     accounts: getAccounts(),
     budgets: [],
   });
 
+  const canEdit = role === 'admin';
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(ROLE_STORAGE_KEY, role);
+    }
+  }, [role]);
+
+  const toggleRole = () => {
+    setRole((currentRole) => (currentRole === 'admin' ? 'viewer' : 'admin'));
+  };
+
+  const withEditAccess = (handler) => (...args) => {
+    if (!canEdit) return;
+    return handler(...args);
+  };
+
   // Add transaction
-  const addTransaction = (transaction) => {
+  const addTransaction = withEditAccess((transaction) => {
     setData((prev) => ({
       ...prev,
       transactions: [
@@ -22,26 +45,26 @@ export function DataProvider({ children }) {
         ...prev.transactions,
       ],
     }));
-  };
+  });
 
   // Update transaction
-  const updateTransaction = (id, updatedTransaction) => {
+  const updateTransaction = withEditAccess((id, updatedTransaction) => {
     setData((prev) => ({
       ...prev,
       transactions: prev.transactions.map((t) => (t.id === id ? { ...t, ...updatedTransaction } : t)),
     }));
-  };
+  });
 
   // Delete transaction
-  const deleteTransaction = (id) => {
+  const deleteTransaction = withEditAccess((id) => {
     setData((prev) => ({
       ...prev,
       transactions: prev.transactions.filter((t) => t.id !== id),
     }));
-  };
+  });
 
   // Add account
-  const addAccount = (account) => {
+  const addAccount = withEditAccess((account) => {
     setData((prev) => ({
       ...prev,
       accounts: [
@@ -52,26 +75,26 @@ export function DataProvider({ children }) {
         ...prev.accounts,
       ],
     }));
-  };
+  });
 
   // Update account
-  const updateAccount = (id, updatedAccount) => {
+  const updateAccount = withEditAccess((id, updatedAccount) => {
     setData((prev) => ({
       ...prev,
       accounts: prev.accounts.map((a) => (a.id === id ? { ...a, ...updatedAccount } : a)),
     }));
-  };
+  });
 
   // Delete account
-  const deleteAccount = (id) => {
+  const deleteAccount = withEditAccess((id) => {
     setData((prev) => ({
       ...prev,
       accounts: prev.accounts.filter((a) => a.id !== id),
     }));
-  };
+  });
 
   // Add budget
-  const addBudget = (budget) => {
+  const addBudget = withEditAccess((budget) => {
     setData((prev) => ({
       ...prev,
       budgets: [
@@ -82,26 +105,26 @@ export function DataProvider({ children }) {
         ...prev.budgets,
       ],
     }));
-  };
+  });
 
   // Update budget
-  const updateBudget = (id, updatedBudget) => {
+  const updateBudget = withEditAccess((id, updatedBudget) => {
     setData((prev) => ({
       ...prev,
       budgets: prev.budgets.map((b) => (b.id === id ? { ...b, ...updatedBudget } : b)),
     }));
-  };
+  });
 
   // Delete budget
-  const deleteBudget = (id) => {
+  const deleteBudget = withEditAccess((id) => {
     setData((prev) => ({
       ...prev,
       budgets: prev.budgets.filter((b) => b.id !== id),
     }));
-  };
+  });
 
   // Upload data from Excel
-  const uploadExcelData = (excelData) => {
+  const uploadExcelData = withEditAccess((excelData) => {
     const newData = { ...data };
 
     if (excelData.transactions && excelData.transactions.length > 0) {
@@ -142,9 +165,13 @@ export function DataProvider({ children }) {
     }
 
     setData(newData);
-  };
+  });
 
   const value = {
+    role,
+    isAdmin: role === 'admin',
+    canEdit,
+    toggleRole,
     data,
     setData,
     addTransaction,

@@ -1,7 +1,7 @@
 import AccountCard from './AccountCard';
 import { formatCurrency } from '../utils/financeData';
 
-export default function AccountsList({ accounts = [], onEditAccount }) {
+export default function AccountsList({ accounts = [], onEditAccount, canEdit = true }) {
   const typeStyle = {
     banking: {
       icon: 'account_balance',
@@ -39,7 +39,7 @@ export default function AccountsList({ accounts = [], onEditAccount }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
       {mappedAccounts.map((account) => (
-        <AccountCard key={account.id ?? account.name} account={account} onEditAccount={onEditAccount} />
+        <AccountCard key={account.id ?? account.name} account={account} onEditAccount={onEditAccount} canEdit={canEdit} />
       ))}
     </div>
   );

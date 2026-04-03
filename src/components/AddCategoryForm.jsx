@@ -7,6 +7,7 @@ export default function AddCategoryForm({
   actionNote,
   onSmartRebalance,
   onExportBudgetCsv,
+  canEdit = true,
 }) {
   const icons = ['cloud', 'work', 'shopping_bag', 'health_and_safety', 'more_horiz'];
   const [name, setName] = useState('');
@@ -20,6 +21,8 @@ export default function AddCategoryForm({
     const normalizedName = name.trim();
     const parsedLimit = Number(limit);
     if (!normalizedName || !Number.isFinite(parsedLimit) || parsedLimit <= 0) return;
+
+    if (!canEdit) return;
 
     if (onCreateCategory) {
       onCreateCategory({
@@ -51,6 +54,7 @@ export default function AddCategoryForm({
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            disabled={!canEdit}
             required
           />
         </div>
@@ -68,6 +72,7 @@ export default function AddCategoryForm({
                 step="0.01"
                 value={limit}
                 onChange={(e) => setLimit(e.target.value)}
+                disabled={!canEdit}
                 required
               />
             </div>
@@ -83,6 +88,7 @@ export default function AddCategoryForm({
                 max="100"
                 value={threshold}
                 onChange={(e) => setThreshold(e.target.value)}
+                disabled={!canEdit}
               />
               <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm">%</span>
             </div>
@@ -95,6 +101,7 @@ export default function AddCategoryForm({
             {icons.map((icon) => (
               <button
                 key={icon}
+                disabled={!canEdit}
                 className={`aspect-square rounded-xl flex items-center justify-center transition-colors border ${
                   selectedIcon === icon
                     ? 'bg-primary text-white border-primary'
@@ -113,13 +120,18 @@ export default function AddCategoryForm({
 
         <div className="pt-2">
           <button
-            className="w-full bg-white border border-outline-variant/30 text-primary py-3 rounded-xl font-semibold text-sm hover:bg-slate-50 transition-colors shadow-sm"
+            disabled={!canEdit}
+            className="w-full bg-white border border-outline-variant/30 text-primary py-3 rounded-xl font-semibold text-sm hover:bg-slate-50 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
             type="submit"
           >
             Create Category
           </button>
         </div>
       </form>
+
+      {!canEdit ? (
+        <p className="mt-4 text-xs text-on-surface-variant">Viewer mode is read-only. Switch to admin in the sidebar to make changes.</p>
+      ) : null}
 
       {forecast ? (
         <div className="mt-8 pt-6 border-t border-outline-variant/10 space-y-5">

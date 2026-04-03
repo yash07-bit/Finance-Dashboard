@@ -1,4 +1,4 @@
-export default function TransactionRow({ transaction, onEdit, onDelete }) {
+export default function TransactionRow({ transaction, onEdit, onDelete, canEdit = true }) {
   return (
     <tr className={`hover:bg-surface-container-low/40 transition-colors group ${transaction.isPending ? 'opacity-75 grayscale-[0.5]' : ''}`}>
       <td className="px-6 py-5 text-sm font-medium text-slate-500 font-body">{transaction.date}</td>
@@ -33,16 +33,18 @@ export default function TransactionRow({ transaction, onEdit, onDelete }) {
       <td className={`px-6 py-5 text-right font-headline font-extrabold ${transaction.type === 'income' ? 'text-secondary' : 'text-primary'}`}>
         {transaction.amount}
       </td>
-      <td className="px-6 py-5 text-center">
-        <div className="flex items-center justify-center gap-2">
-          <button type="button" onClick={() => onEdit?.(transaction)} className="p-1.5 hover:bg-secondary-fixed rounded-lg text-secondary transition-colors">
-            <span className="material-symbols-outlined text-lg">edit</span>
-          </button>
-          <button type="button" onClick={() => onDelete?.(transaction)} className="p-1.5 hover:bg-error-container rounded-lg text-error transition-colors">
-            <span className="material-symbols-outlined text-lg">delete</span>
-          </button>
-        </div>
-      </td>
+      {canEdit ? (
+        <td className="px-6 py-5 text-center">
+          <div className="flex items-center justify-center gap-2">
+            <button type="button" onClick={() => onEdit?.(transaction)} className="p-1.5 hover:bg-secondary-fixed rounded-lg text-secondary transition-colors">
+              <span className="material-symbols-outlined text-lg">edit</span>
+            </button>
+            <button type="button" onClick={() => onDelete?.(transaction)} className="p-1.5 hover:bg-error-container rounded-lg text-error transition-colors">
+              <span className="material-symbols-outlined text-lg">delete</span>
+            </button>
+          </div>
+        </td>
+      ) : null}
     </tr>
   );
 }

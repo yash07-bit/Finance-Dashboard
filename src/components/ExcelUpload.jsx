@@ -7,7 +7,7 @@ export default function ExcelUpload({ variant = 'button' }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef(null);
-  const { uploadExcelData } = useAppData();
+  const { uploadExcelData, canEdit } = useAppData();
 
   const handleFileUpload = (event) => {
     const file = event.target.files?.[0];
@@ -73,11 +73,11 @@ export default function ExcelUpload({ variant = 'button' }) {
       <>
         <button
           onClick={handleClick}
-          disabled={loading}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 font-medium text-sm bg-primary-accent/20 text-white border border-primary-accent/40 shadow-sm hover:bg-primary-accent/30"
+          disabled={loading || !canEdit}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 font-medium text-sm bg-primary-accent/20 text-white border border-primary-accent/40 shadow-sm hover:bg-primary-accent/30 disabled:cursor-not-allowed disabled:opacity-60"
         >
           <Upload className="w-4 h-4" />
-          <span className="truncate">{loading ? 'Uploading...' : 'Import Excel'}</span>
+          <span className="truncate">{!canEdit ? 'Viewer mode' : loading ? 'Uploading...' : 'Import Excel'}</span>
         </button>
         <input
           ref={fileInputRef}
@@ -87,7 +87,12 @@ export default function ExcelUpload({ variant = 'button' }) {
           className="hidden"
           aria-label="Upload Excel file"
         />
-        {error && (
+        {!canEdit ? (
+          <div className="text-xs text-slate-300 mt-2 px-3 py-2 bg-slate-500/10 rounded-lg">
+            Uploading is disabled in viewer mode.
+          </div>
+        ) : null}
+        {error && canEdit && (
           <div className="text-xs text-red-400 mt-2 px-3 py-2 bg-red-500/10 rounded-lg">
             {error}
           </div>
@@ -107,12 +112,12 @@ export default function ExcelUpload({ variant = 'button' }) {
       <div className="space-y-4">
         <button
           onClick={handleClick}
-          disabled={loading}
-          className="w-full flex flex-col items-center justify-center px-4 py-8 border-2 border-dashed border-primary rounded-xl cursor-pointer hover:bg-surface-container-highest transition-colors disabled:opacity-50"
+          disabled={loading || !canEdit}
+          className="w-full flex flex-col items-center justify-center px-4 py-8 border-2 border-dashed border-primary rounded-xl cursor-pointer hover:bg-surface-container-highest transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Upload className="w-8 h-8 text-primary mb-2" />
-          <span className="text-sm font-semibold text-primary">Click to upload</span>
-          <span className="text-xs text-on-surface-variant mt-1">or drag and drop</span>
+          <span className="text-sm font-semibold text-primary">{canEdit ? 'Click to upload' : 'Viewer mode'}</span>
+          <span className="text-xs text-on-surface-variant mt-1">{canEdit ? 'or drag and drop' : 'Read-only access enabled'}</span>
           <span className="text-xs text-on-surface-variant mt-2">Excel (.xlsx, .xls) or CSV files</span>
         </button>
         <input
@@ -124,7 +129,7 @@ export default function ExcelUpload({ variant = 'button' }) {
           aria-label="Upload file"
         />
 
-        {error && (
+        {!canEdit ? null : error && (
           <div className="bg-error/10 border border-error rounded-lg p-3">
             <p className="text-sm text-error">{error}</p>
           </div>

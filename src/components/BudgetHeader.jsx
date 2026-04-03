@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
 
-export default function BudgetHeader({ initialLimits = {}, onAllocationsUpdated }) {
+export default function BudgetHeader({ initialLimits = {}, onAllocationsUpdated, canEdit = true }) {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState(initialLimits);
 
   useEffect(() => {
     setFormData(initialLimits);
   }, [initialLimits]);
+
+  useEffect(() => {
+    if (!canEdit) {
+      setShowModal(false);
+    }
+  }, [canEdit]);
 
   const handleOpenModal = () => {
     setFormData(initialLimits);
@@ -38,18 +44,24 @@ export default function BudgetHeader({ initialLimits = {}, onAllocationsUpdated 
             Fiscal year 2024 • Admin overview
           </p>
         </div>
-        <button
-          onClick={handleOpenModal}
-          className="bg-primary text-white px-4 py-2.5 rounded-lg text-sm font-semibold shadow-md shadow-primary/20 hover:opacity-95 transition-all flex items-center gap-2 self-start sm:self-auto"
-        >
-          <span className="material-symbols-outlined text-lg" data-icon="tune">
-            tune
-          </span>
-          Adjust Allocations
-        </button>
+        {canEdit ? (
+          <button
+            onClick={handleOpenModal}
+            className="bg-primary text-white px-4 py-2.5 rounded-lg text-sm font-semibold shadow-md shadow-primary/20 hover:opacity-95 transition-all flex items-center gap-2 self-start sm:self-auto"
+          >
+            <span className="material-symbols-outlined text-lg" data-icon="tune">
+              tune
+            </span>
+            Adjust Allocations
+          </button>
+        ) : (
+          <div className="bg-slate-100 text-slate-500 px-4 py-2.5 rounded-lg text-sm font-semibold self-start sm:self-auto">
+            Viewer mode
+          </div>
+        )}
       </div>
 
-      {showModal && (
+      {showModal && canEdit && (
         <div className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center bg-slate-900/45 p-0 sm:p-4">
           <div className="bg-white rounded-t-2xl sm:rounded-xl shadow-xl w-full sm:max-w-md max-h-[90vh] overflow-y-auto">
             <div className="p-4 sm:p-8">

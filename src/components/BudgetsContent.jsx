@@ -8,7 +8,7 @@ import { formatCurrency, getBudgetMetrics } from '../utils/financeData';
 import { useAppData } from '../context/useAppData';
 
 export default function BudgetsContent() {
-  const { data, addBudget } = useAppData();
+  const { data, addBudget, canEdit } = useAppData();
   const transactions = data.transactions;
   const [budgetLimits, setBudgetLimits] = useState({});
 
@@ -33,6 +33,8 @@ export default function BudgetsContent() {
     if (!name || !Number.isFinite(limit) || limit <= 0) return;
 
     // Add to context
+    if (!canEdit) return;
+
     addBudget({
       name,
       limit,
@@ -120,6 +122,7 @@ export default function BudgetsContent() {
         <BudgetHeader
           initialLimits={budgetLimits}
           onAllocationsUpdated={setBudgetLimits}
+          canEdit={canEdit}
         />
 
         {/* Bento Summary Cards */}
@@ -141,6 +144,7 @@ export default function BudgetsContent() {
             actionNote={actionNote}
             onSmartRebalance={handleSmartRebalance}
             onExportBudgetCsv={handleExportBudgetCsv}
+            canEdit={canEdit}
           />
         </div>
 

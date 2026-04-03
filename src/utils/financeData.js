@@ -4,7 +4,7 @@ import {
   monthlyBalanceSeries as sampleMonthlyBalanceSeries,
   mockTransactions as sampleTransactions,
 } from '../data/sampleFinanceData';
-import { getPreferredCurrency } from '../context/CurrencyPreference';
+import { getPreferredCurrency } from '../context/currencyPreferenceStore';
 
 const CURRENCY_RATES = {
   USD: 1,

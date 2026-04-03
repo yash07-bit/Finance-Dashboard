@@ -1,7 +1,7 @@
 import TransactionRow from './TransactionRow';
 import { formatCurrency, formatShortDate } from '../utils/financeData';
 
-export default function TransactionTable({ transactions = [], onEditTransaction, onDeleteTransaction }) {
+export default function TransactionTable({ transactions = [], onEditTransaction, onDeleteTransaction, canEdit = true }) {
   const tableRows = transactions.map((tx) => ({
     id: tx.id,
     date: formatShortDate(tx.date),
@@ -26,7 +26,7 @@ export default function TransactionTable({ transactions = [], onEditTransaction,
             <th className="px-3 md:px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest whitespace-nowrap">Category</th>
             <th className="px-3 md:px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest whitespace-nowrap">Type</th>
             <th className="px-3 md:px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest text-right whitespace-nowrap">Amount</th>
-            <th className="px-3 md:px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest text-center whitespace-nowrap">Actions</th>
+            {canEdit ? <th className="px-3 md:px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-widest text-center whitespace-nowrap">Actions</th> : null}
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-100">
@@ -37,11 +37,12 @@ export default function TransactionTable({ transactions = [], onEditTransaction,
                 transaction={transaction}
                 onEdit={onEditTransaction}
                 onDelete={onDeleteTransaction}
+                canEdit={canEdit}
               />
             ))
           ) : (
             <tr>
-              <td colSpan={6} className="px-3 md:px-6 py-12 text-center text-sm text-slate-500 font-medium">
+              <td colSpan={canEdit ? 6 : 5} className="px-3 md:px-6 py-12 text-center text-sm text-slate-500 font-medium">
                 No transactions found for the selected filters.
               </td>
             </tr>

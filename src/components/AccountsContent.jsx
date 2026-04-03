@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useEffect } from 'react';
 import AccountsHeader from './AccountsHeader';
 import AccountsList from './AccountsList';
 import WalletActivity from './WalletActivity';
@@ -7,7 +8,7 @@ import { getBalanceSeries } from '../utils/financeData';
 import { useAppData } from '../context/useAppData';
 
 export default function AccountsContent() {
-  const { data, updateAccount, addAccount: addAccountToContext } = useAppData();
+  const { data, updateAccount, addAccount: addAccountToContext, canEdit } = useAppData();
   const accounts = data.accounts;
   const [showConnectModal, setShowConnectModal] = useState(false);
   const [editingAccountId, setEditingAccountId] = useState(null);
@@ -22,8 +23,17 @@ export default function AccountsContent() {
   const liquidityChangePct = firstBalance ? ((latestBalance - firstBalance) / firstBalance) * 100 : 0;
 
   const handleConnectAccount = () => {
+    if (!canEdit) return;
+
     setShowConnectModal(true);
   };
+
+  useEffect(() => {
+    if (!canEdit) {
+      setShowConnectModal(false);
+      setEditingAccountId(null);
+    }
+  }, [canEdit]);
 
   const handleOpenEditAccount = (account) => {
     setEditingAccountId(account.id);
@@ -44,6 +54,8 @@ export default function AccountsContent() {
 
     if (!normalizedName || !Number.isFinite(parsedBalance) || parsedBalance < 0) return;
 
+    if (!canEdit) return;
+
     updateAccount(editingAccountId, {
       name: normalizedName,
       balance: parsedBalance,
@@ -62,6 +74,8 @@ export default function AccountsContent() {
 
     if (!accountName || !institution || !Number.isFinite(balance) || balance <= 0) return;
 
+    if (!canEdit) return;
+
     addAccountToContext({
       name: accountName,
       institution,
@@ -79,10 +93,11 @@ export default function AccountsContent() {
         totalLiquidity={totalLiquidity}
         changePct={liquidityChangePct}
         onConnectAccount={handleConnectAccount}
+        canEdit={canEdit}
       />
 
       {/* Account Cards */}
-      <AccountsList accounts={accounts} onEditAccount={handleOpenEditAccount} />
+      <AccountsList accounts={accounts} onEditAccount={handleOpenEditAccount} canEdit={canEdit} />
 
       {/* Bottom Content: Transactions & Insights */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8">
@@ -90,7 +105,7 @@ export default function AccountsContent() {
         <SecurityHealth />
       </div>
 
-      {showConnectModal ? (
+      {showConnectModal && canEdit ? (
         <div className="fixed inset-y-0 left-0 md:left-64 right-0 z-[80] bg-slate-900/45 flex items-center justify-center p-4">
           <div className="w-full max-w-lg rounded-2xl bg-white border border-slate-200 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="px-4 md:px-6 py-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white">
@@ -167,7 +182,7 @@ export default function AccountsContent() {
         </div>
       ) : null}
 
-      {editingAccountId ? (
+      {editingAccountId && canEdit ? (
         <div className="fixed inset-0 z-[80] bg-slate-900/45 flex items-end sm:items-center justify-center p-0 sm:p-4">
           <div className="w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl bg-white border border-slate-200 shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white">

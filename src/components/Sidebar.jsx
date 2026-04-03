@@ -1,9 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
 import ExcelUpload from './ExcelUpload';
-import { useState } from 'react';
+import { useAppData } from '../context/useAppData';
 
 export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const location = useLocation();
+  const { role, canEdit, toggleRole } = useAppData();
 
   const navItems = [
     { name: 'Dashboard', href: '/', icon: 'dashboard' },
@@ -83,7 +84,32 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
         </Link>
       </div>
 
-      <div className="mt-6 pt-6 border-t border-primary-accent/10">
+      <div className="mt-6 pt-6 border-t border-primary-accent/10 space-y-3">
+        <button
+          type="button"
+          onClick={toggleRole}
+          className={`w-full flex items-center justify-between gap-3 px-3 py-3 rounded-xl border transition-colors ${
+            canEdit
+              ? 'bg-emerald-500/10 border-emerald-400/20 text-white hover:bg-emerald-500/15'
+              : 'bg-slate-500/10 border-slate-400/20 text-slate-100 hover:bg-slate-500/15'
+          }`}
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${canEdit ? 'bg-emerald-400/20' : 'bg-slate-400/20'}`}>
+              <span className="material-symbols-outlined text-white">{canEdit ? 'admin_panel_settings' : 'visibility'}</span>
+            </div>
+            <div className="min-w-0 text-left">
+              <p className="text-xs font-semibold text-white truncate">{role === 'admin' ? 'Admin Mode' : 'Viewer Mode'}</p>
+              <p className="text-[11px] text-slate-300 truncate">
+                {canEdit ? 'Can add, edit, import, and delete' : 'Read-only access'}
+              </p>
+            </div>
+          </div>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-slate-200">
+            Toggle
+          </span>
+        </button>
+
         <Link to="/settings" onClick={() => setSidebarOpen(false)} className="flex items-center gap-3 px-2 rounded-xl py-2 hover:bg-primary-accent/10 transition-colors">
           <div className="w-10 h-10 rounded-full bg-primary-accent/20 flex items-center justify-center">
             <span className="material-symbols-outlined text-primary-accent">account_circle</span>
