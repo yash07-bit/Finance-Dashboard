@@ -12,8 +12,8 @@ export default function Header({ sidebarOpen, setSidebarOpen }) {
       </button>
 
       {/* Search Bar Container */}
-      <div className="flex-1 md:px-8">
-        <div className="relative w-full max-w-2xl mx-auto md:mx-0">
+      <div className="flex-1 md:px-8 flex justify-center">
+        <div className="relative w-full max-w-2xl mx-auto">
           <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-lg">
             search
           </span>
