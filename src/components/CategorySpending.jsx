@@ -41,13 +41,18 @@ export default function CategorySpending({ categories = [] }) {
   const sortedCategories = [...displayCategories].sort((a, b) => b.percentage - a.percentage);
   const topCategory = sortedCategories[0] || { name: 'N/A', percentage: 0 };
 
-  let runningPercentage = 0;
-  const gradientSlices = displayCategories.map((category) => {
-    const start = runningPercentage;
-    const end = Math.min(100, runningPercentage + category.percentage);
-    runningPercentage = end;
-    return `${category.color.hex} ${start}% ${end}%`;
-  });
+  const { gradientSlices, runningPercentage } = displayCategories.reduce(
+    (acc, category) => {
+      const start = acc.runningPercentage;
+      const end = Math.min(100, acc.runningPercentage + category.percentage);
+
+      return {
+        gradientSlices: [...acc.gradientSlices, `${category.color.hex} ${start}% ${end}%`],
+        runningPercentage: end,
+      };
+    },
+    { gradientSlices: [], runningPercentage: 0 },
+  );
 
   if (runningPercentage < 100) {
     gradientSlices.push(`#E2E8F0 ${runningPercentage}% 100%`);

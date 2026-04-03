@@ -1,24 +1,25 @@
 import { getBalanceSeries } from '../utils/financeData';
 import { useAppData } from '../context/useAppData';
-import { useEffect, useState, useMemo } from 'react';
+import { useMemo } from 'react';
 
 export default function MonthlyComparison() {
   const { data } = useAppData();
-  const [comparisonData, setComparisonData] = useState({ change: 0, changeAmount: 0, isPositive: true });
   
   // Calculate balance series from context transactions
   const series = useMemo(() => getBalanceSeries(data.transactions), [data.transactions]);
 
-  useEffect(() => {
+  const comparisonData = useMemo(() => {
     if (data.transactions.length > 0 && series.length > 1) {
       const currentMonth = series.at(-1)?.balance ?? 0;
       const previousMonth = series.at(-2)?.balance ?? currentMonth;
       const change = previousMonth ? ((currentMonth - previousMonth) / previousMonth) * 100 : 0;
       const changeAmount = currentMonth - previousMonth;
       const isPositive = change >= 0;
-      setComparisonData({ change, changeAmount, isPositive });
+      return { change, changeAmount, isPositive };
     }
-  }, [data.transactions, series]);
+
+    return { change: 0, changeAmount: 0, isPositive: true };
+  }, [data.transactions.length, series]);
 
   const { change, changeAmount, isPositive } = comparisonData;
   const progressWidth = Math.min(100, Math.abs(change) * 5);

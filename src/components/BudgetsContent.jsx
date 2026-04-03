@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import BudgetHeader from './BudgetHeader';
 import BudgetSummaryCard from './BudgetSummaryCard';
 import BudgetUtilization from './BudgetUtilization';
@@ -10,18 +10,17 @@ import { useAppData } from '../context/useAppData';
 export default function BudgetsContent() {
   const { data, addBudget, canEdit } = useAppData();
   const transactions = data.transactions;
-  const [budgetLimits, setBudgetLimits] = useState({});
+  const [budgetLimitOverrides, setBudgetLimitOverrides] = useState({});
 
   const baseMetrics = useMemo(() => getBudgetMetrics(transactions), [transactions]);
 
-  // Update budget limits when transactions change
-  useEffect(() => {
+  const budgetLimits = useMemo(() => {
     const limits = {};
     baseMetrics.categoryRows.forEach((row) => {
-      limits[row.name] = row.limit;
+      limits[row.name] = budgetLimitOverrides[row.name] ?? row.limit;
     });
-    setBudgetLimits(limits);
-  }, [baseMetrics]);
+    return limits;
+  }, [baseMetrics, budgetLimitOverrides]);
 
   const budgetMetrics = useMemo(
     () => getBudgetMetrics(transactions, budgetLimits),
@@ -43,7 +42,7 @@ export default function BudgetsContent() {
     });
 
     // Also update local state
-    setBudgetLimits((current) => ({
+    setBudgetLimitOverrides((current) => ({
       ...current,
       [name]: limit,
     }));
@@ -85,7 +84,7 @@ export default function BudgetsContent() {
       return;
     }
 
-    setBudgetLimits((current) => ({
+    setBudgetLimitOverrides((current) => ({
       ...current,
       [receiver.name]: (current[receiver.name] || receiver.limit) + transferAmount,
       [donor.name]: (current[donor.name] || donor.limit) - transferAmount,
@@ -121,7 +120,7 @@ export default function BudgetsContent() {
         {/* Hero Header Section */}
         <BudgetHeader
           initialLimits={budgetLimits}
-          onAllocationsUpdated={setBudgetLimits}
+          onAllocationsUpdated={setBudgetLimitOverrides}
           canEdit={canEdit}
         />
 

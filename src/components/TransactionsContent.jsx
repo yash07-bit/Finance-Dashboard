@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import PageHeader from './PageHeader';
 import FilterBar from './FilterBar';
@@ -9,7 +9,7 @@ import { useAppData } from '../context/useAppData';
 export default function TransactionsContent() {
   const pageSize = 5;
   const { data, addTransaction, updateTransaction, deleteTransaction, canEdit } = useAppData();
-  const [transactions, setTransactions] = useState(() => data.transactions);
+  const transactions = data.transactions;
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
   const [selectedDateRange, setSelectedDateRange] = useState('30d');
@@ -24,18 +24,6 @@ export default function TransactionsContent() {
     type: 'expense',
     date: new Date().toISOString().slice(0, 10),
   });
-
-  // Sync with context data - critical for data reflection
-  useEffect(() => {
-    setTransactions(data.transactions);
-    setPage(1); // Reset to first page when data changes
-  }, [data.transactions]);
-
-  useEffect(() => {
-    if (!canEdit) {
-      closeAddModal();
-    }
-  }, [canEdit]);
 
   const categoryOptions = useMemo(
     () => [...new Set(transactions.map((tx) => tx.category))].sort((a, b) => a.localeCompare(b)),
@@ -67,12 +55,8 @@ export default function TransactionsContent() {
   }, [referenceDate, selectedCategory, selectedDateRange, selectedType, sortOrder, transactions]);
 
   const totalPages = Math.max(1, Math.ceil(filteredTransactions.length / pageSize));
-
-  useEffect(() => {
-    setPage(1);
-  }, [selectedCategory, selectedDateRange, selectedType, sortOrder]);
-
-  const pageTransactions = filteredTransactions.slice((page - 1) * pageSize, page * pageSize);
+  const activePage = Math.min(page, totalPages);
+  const pageTransactions = filteredTransactions.slice((activePage - 1) * pageSize, activePage * pageSize);
 
   const handlePageChange = (nextPage) => {
     setPage(Math.min(Math.max(1, nextPage), totalPages));
@@ -93,30 +77,6 @@ export default function TransactionsContent() {
       type: 'expense',
       date: new Date().toISOString().slice(0, 10),
     });
-  };
-
-  const handleCreateTransaction = (event) => {
-    event.preventDefault();
-
-    const amount = Number(newTransaction.amount);
-    if (!newTransaction.description.trim() || !newTransaction.category.trim() || !newTransaction.date || Number.isNaN(amount) || amount <= 0) {
-      return;
-    }
-
-    // Add to context instead of local state
-    if (!canEdit) return;
-
-    addTransaction({
-      date: newTransaction.date,
-      description: newTransaction.description.trim(),
-      category: newTransaction.category.trim(),
-      icon: newTransaction.type === 'income' ? 'payments' : 'receipt_long',
-      amount,
-      type: newTransaction.type,
-    });
-
-    closeAddModal();
-    setPage(1);
   };
 
   const openEditModal = (transaction) => {
@@ -182,10 +142,22 @@ export default function TransactionsContent() {
         selectedType={selectedType}
         selectedDateRange={selectedDateRange}
         sortOrder={sortOrder}
-        onCategoryChange={setSelectedCategory}
-        onTypeChange={setSelectedType}
-        onDateRangeChange={setSelectedDateRange}
-          onSortToggle={() => setSortOrder((currentSort) => (currentSort === 'newest' ? 'oldest' : 'newest'))}
+        onCategoryChange={(value) => {
+          setSelectedCategory(value);
+          setPage(1);
+        }}
+        onTypeChange={(value) => {
+          setSelectedType(value);
+          setPage(1);
+        }}
+        onDateRangeChange={(value) => {
+          setSelectedDateRange(value);
+          setPage(1);
+        }}
+        onSortToggle={() => {
+          setSortOrder((currentSort) => (currentSort === 'newest' ? 'oldest' : 'newest'));
+          setPage(1);
+        }}
       />
 
       {/* Transaction Content */}
@@ -197,7 +169,7 @@ export default function TransactionsContent() {
           canEdit={canEdit}
         />
         <Pagination
-          page={page}
+          page={activePage}
           pageSize={pageSize}
           total={filteredTransactions.length}
           onPageChange={handlePageChange}

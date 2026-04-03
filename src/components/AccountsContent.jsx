@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useEffect } from 'react';
 import AccountsHeader from './AccountsHeader';
 import AccountsList from './AccountsList';
 import WalletActivity from './WalletActivity';
@@ -27,13 +26,6 @@ export default function AccountsContent() {
 
     setShowConnectModal(true);
   };
-
-  useEffect(() => {
-    if (!canEdit) {
-      setShowConnectModal(false);
-      setEditingAccountId(null);
-    }
-  }, [canEdit]);
 
   const handleOpenEditAccount = (account) => {
     setEditingAccountId(account.id);

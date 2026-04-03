@@ -80,6 +80,78 @@ src/
 - **XLSX** 0.18.5
 - **Vite** 5.0.0
 
+## ✅ Assignment Requirement Mapping
+
+This project satisfies the Finance Dashboard UI assignment requirements as follows:
+
+### 1) Dashboard Overview
+- Summary cards for **Total Balance, Income, Expenses**
+- Time-based visualization: **Balance Trend**
+- Categorical visualization: **Category Spending**
+- Implemented in:
+  - `src/components/DashboardContent.jsx`
+  - `src/components/SummaryCards.jsx`
+  - `src/components/BalanceTrendChart.jsx`
+  - `src/components/CategorySpending.jsx`
+
+### 2) Transactions Section
+- Transaction table includes:
+  - Date
+  - Amount
+  - Category
+  - Type (income/expense)
+- Interaction features:
+  - Filtering (category/type/date range)
+  - Sorting (newest/oldest)
+  - Empty-state handling
+- Implemented in:
+  - `src/components/TransactionsContent.jsx`
+  - `src/components/FilterBar.jsx`
+  - `src/components/TransactionTable.jsx`
+
+### 3) Basic Role-Based UI (Frontend Simulation)
+- Role toggle between **Admin** and **Viewer** in sidebar
+- Viewer mode is read-only; admin mode allows create/edit/import/delete actions
+- Role state persisted in local storage
+- Implemented in:
+  - `src/components/Sidebar.jsx`
+  - `src/context/DataContext.jsx`
+  - `src/components/TransactionsContent.jsx`
+  - `src/components/AccountsContent.jsx`
+  - `src/components/BudgetsContent.jsx`
+  - `src/components/ExcelUpload.jsx`
+
+### 4) Insights Section
+- Highest spending category
+- Monthly comparison
+- Additional insight widgets
+- Implemented in:
+  - `src/components/InsightsContent.jsx`
+  - `src/components/HighestSpending.jsx`
+  - `src/components/MonthlyComparison.jsx`
+
+### 5) State Management
+- Global state management via React Context
+- Shared transaction/account/budget data across pages
+- Role and permissions state handling
+- Currency preference state handling
+- Implemented in:
+  - `src/context/DataContext.jsx`
+  - `src/context/useAppData.js`
+  - `src/context/CurrencyPreference.jsx`
+  - `src/context/currencyPreferenceStore.js`
+
+### 6) UI/UX Expectations
+- Clean and readable component-driven UI
+- Responsive layout across mobile/tablet/desktop
+- Handles empty or no-data states in key sections
+
+### Optional Enhancements Included
+- Excel/CSV import flow
+- Currency preference support (USD/EUR/GBP)
+- Export support (budget CSV)
+- Local storage persistence for selected role and currency preference
+
 ## 📊 Data Management
 
 The app uses React Context for global state management:
