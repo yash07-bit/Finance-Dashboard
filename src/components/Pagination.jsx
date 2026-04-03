@@ -12,14 +12,14 @@ export default function Pagination({ page = 1, pageSize = 5, total = 0, onPageCh
           .sort((a, b) => a - b);
 
   return (
-    <div className="px-8 py-4 bg-surface-container-low/30 flex items-center justify-between border-t border-slate-100">
-      <p className="text-xs font-medium text-slate-400">Showing {start} to {end} of {total} transactions</p>
-      <div className="flex items-center gap-2">
+    <div className="px-4 md:px-8 py-4 bg-surface-container-low/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-t border-slate-100">
+      <p className="text-xs font-medium text-slate-400 order-2 md:order-1">Showing {start} to {end} of {total} transactions</p>
+      <div className="flex items-center gap-2 overflow-x-auto order-1 md:order-2">
         <button
           type="button"
           onClick={() => onPageChange?.(page - 1)}
           disabled={!canGoBack}
-          className="p-2 rounded-lg hover:bg-surface-container-high transition-colors text-slate-500 disabled:opacity-40 disabled:cursor-not-allowed"
+          className="p-2 rounded-lg hover:bg-surface-container-high transition-colors text-slate-500 disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
         >
           <span className="material-symbols-outlined">chevron_left</span>
         </button>
@@ -28,12 +28,12 @@ export default function Pagination({ page = 1, pageSize = 5, total = 0, onPageCh
           const hasGap = index > 0 && pageNumber - previousPage > 1;
 
           return (
-            <span key={pageNumber} className="flex items-center gap-2">
-              {hasGap && <span className="text-slate-300">...</span>}
+            <span key={pageNumber} className="flex items-center gap-2 flex-shrink-0">
+              {hasGap && <span className="text-slate-300 hidden sm:inline">...</span>}
               <button
                 type="button"
                 onClick={() => onPageChange?.(pageNumber)}
-                className={`w-8 h-8 rounded-lg text-xs font-bold transition-all duration-300 ease-out ${
+                className={`w-8 h-8 rounded-lg text-xs font-bold transition-all duration-300 ease-out flex-shrink-0 ${
                   pageNumber === page
                     ? 'bg-primary text-white shadow-md shadow-primary/40 scale-110'
                     : 'hover:bg-surface-container-high text-on-surface scale-100'

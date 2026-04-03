@@ -1,22 +1,22 @@
 export default function ProfileSection() {
   return (
-    <div className="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-2xl p-8 shadow-sm">
-      <div className="flex items-start justify-between">
-        <div className="flex items-center gap-8">
-          <div className="relative group">
+    <div className="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-2xl p-4 md:p-8 shadow-sm">
+      <div className="flex flex-col md:flex-row items-start justify-between gap-4">
+        <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 w-full md:w-auto">
+          <div className="relative group flex-shrink-0">
             <img
               alt="Alexander Pierce"
-              className="w-24 h-24 rounded-2xl object-cover ring-4 ring-surface-container-low"
+              className="w-20 md:w-24 h-20 md:h-24 rounded-2xl object-cover ring-4 ring-surface-container-low"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSpeXadTh0-0jxwGnK9o2RIIszQdE2hsZdiqZmO_0Dohf1rRM8rglWqucpI52RKuXkhEwN2dPP2eXOG7oMSyGUADHxtvlimBXX0V2iu0St5EDqxy4mCP_ioaKlPUH3D-Jdnk3o8dwKA5DPlz65e6na8tacfE4uWnJG2nbeoPi9xGrTgR4q1Fzme8btngjYmWnBdNO-R_3__fIYhJz6mppWxnqkicc5t7RsH--cnXeNb4ChlX0uW6ZU-B2Va3EsMrXhkFnE-yEKPR4"
             />
             <button className="absolute -bottom-2 -right-2 bg-primary text-white p-2 rounded-lg shadow-lg hover:scale-105 transition-transform">
               <span className="material-symbols-outlined text-sm">edit</span>
             </button>
           </div>
-          <div>
-            <h3 className="text-2xl font-bold text-primary">Alexander Pierce</h3>
-            <p className="text-on-surface-variant font-medium">alex@lumina.finance</p>
-            <div className="mt-3 flex items-center gap-2">
+          <div className="flex-1">
+            <h3 className="text-xl md:text-2xl font-bold text-primary">Alexander Pierce</h3>
+            <p className="text-on-surface-variant font-medium text-sm md:text-base">alex@lumina.finance</p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-secondary-fixed text-on-secondary-fixed">
                 Lumina Desk
               </span>
@@ -26,14 +26,14 @@ export default function ProfileSection() {
             </div>
           </div>
         </div>
-        <button className="text-secondary font-semibold hover:underline flex items-center gap-1">
+        <button className="text-secondary font-semibold hover:underline flex items-center gap-1 text-sm md:text-base whitespace-nowrap">
           <span>Edit Profile</span>
         </button>
       </div>
-      <div className="mt-12 grid grid-cols-2 gap-x-12 gap-y-8">
+      <div className="mt-8 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-x-12 md:gap-y-8">
         <div className="space-y-1">
           <label className="text-[10px] font-bold uppercase tracking-wider text-outline">Organization</label>
-          <p className="text-on-surface font-semibold text-lg">Lumina Desk</p>
+          <p className="text-on-surface font-semibold text-base md:text-lg">Lumina Desk</p>
         </div>
         <div className="space-y-1">
           <label className="text-[10px] font-bold uppercase tracking-wider text-outline">Account Type</label>

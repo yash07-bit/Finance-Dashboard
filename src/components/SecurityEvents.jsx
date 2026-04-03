@@ -33,22 +33,22 @@ export default function SecurityEvents() {
       </button>
 
       {showAuditLog ? (
-        <div className="fixed inset-y-0 left-64 right-0 z-[90] bg-slate-900/45 flex items-center justify-center p-4">
-          <div className="w-full max-w-xl rounded-2xl bg-white border border-slate-200 shadow-2xl">
-            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-              <h4 className="text-lg font-bold text-primary">Full Audit Log</h4>
+        <div className="fixed inset-0 z-[90] bg-slate-900/45 flex items-end sm:items-center justify-center p-0 sm:p-4">
+          <div className="w-full sm:max-w-xl rounded-t-2xl sm:rounded-2xl bg-white border border-slate-200 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white">
+              <h4 className="text-base sm:text-lg font-bold text-primary">Full Audit Log</h4>
               <button type="button" onClick={() => setShowAuditLog(false)} className="p-1 rounded-lg text-slate-500 hover:bg-slate-100">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
-            <div className="p-6 space-y-3">
+            <div className="p-4 sm:p-6 space-y-3">
               {events.map((event, index) => (
-                <div key={index} className="rounded-xl border border-slate-200 bg-surface-container-lowest p-4 flex items-start justify-between gap-4">
+                <div key={index} className="rounded-xl border border-slate-200 bg-surface-container-lowest p-4 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
                   <div>
                     <p className="text-sm font-bold text-primary">{event.title}</p>
                     <p className="text-xs text-on-surface-variant mt-1">{event.location}</p>
                   </div>
-                  <span className="text-xs font-semibold text-outline">{event.time}</span>
+                  <span className="text-xs font-semibold text-outline whitespace-nowrap">{event.time}</span>
                 </div>
               ))}
             </div>

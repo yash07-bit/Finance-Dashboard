@@ -31,19 +31,19 @@ export default function FilterBar({
   onSortToggle,
 }) {
   return (
-    <div className="px-8 py-4">
+    <div className="px-4 md:px-8 py-4">
       <div className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <div className="flex items-center justify-between gap-3 bg-white px-3 py-2.5 rounded-xl border border-slate-200">
             <div className="flex items-center gap-2 min-w-0">
               <span className="material-symbols-outlined text-slate-500 text-lg">filter_list</span>
-              <span className="text-sm font-semibold text-slate-700">Category</span>
+              <span className="text-sm font-semibold text-slate-700 truncate">Category</span>
             </div>
             <SelectField
               value={selectedCategory}
               onChange={(event) => onCategoryChange?.(event.target.value)}
               ariaLabel="Filter by category"
-              widthClass="w-[160px]"
+              widthClass="w-auto"
             >
               <option value="all">All</option>
               {categoryOptions.map((category) => (

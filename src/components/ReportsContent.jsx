@@ -77,7 +77,7 @@ export default function ReportsContent() {
   };
 
   return (
-    <div className="p-10 space-y-10">
+    <div className="p-4 md:p-8 lg:p-10 space-y-6 md:space-y-10">
       {/* Header & Controls */}
       <ReportHeader
         range={range}
@@ -86,7 +86,7 @@ export default function ReportsContent() {
       />
 
       {/* Bento Grid Stats Section */}
-      <div className="grid grid-cols-12 gap-6">
+      <div className="grid grid-cols-12 gap-4 md:gap-6">
         <PortfolioVelocity portfolioValue={reportMetrics.portfolioValue} velocityPct={reportMetrics.velocityPct} monthlyMovement={reportMetrics.monthlyMovement} />
         <MonthlyNetMovement movement={reportMetrics.monthlyMovement} />
         <CategoryDistribution categories={reportMetrics.categoryDistribution} />

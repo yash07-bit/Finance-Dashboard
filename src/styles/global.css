@@ -5,18 +5,33 @@
 @layer base {
   * {
     scroll-behavior: smooth;
+    box-sizing: border-box;
+  }
+
+  html {
+    height: 100%;
+    scrollbar-gutter: stable;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   html,
   body {
-    height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+    margin: 0;
+    padding: 0;
   }
 
   body {
+    height: 100%;
+    min-height: 100dvh;
     background-color: #F8FAFC;
     color: #0F172A;
-    overflow-x: hidden;
+    overflow-x: clip;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 100%;
   }
 
   .material-symbols-outlined {
@@ -36,20 +51,43 @@
   }
 }
 
+/* Hide scrollbar completely for all browsers */
 ::-webkit-scrollbar {
-  width: 0.5rem;
-  height: 0.5rem;
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #F1F5F9;
+  display: none;
+  width: 0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #2E8B9E;
-  border-radius: 0.25rem;
+  display: none;
+  width: 0;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: #1E5B6D;
+/* Firefox */
+* {
+  scrollbar-width: none;
 }
+
+html {
+  -ms-overflow-style: none;
+}
+
+/* Mobile-first responsive utility */
+@layer utilities {
+  .transition-margin {
+    @apply transition-[margin] duration-300;
+  }
+}
+
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100dvh;
+  overflow-x: clip;
+}
+

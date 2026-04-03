@@ -73,7 +73,7 @@ export default function AccountsContent() {
   };
 
   return (
-    <section className="p-8 max-w-7xl mx-auto">
+    <section className="p-4 md:p-8 max-w-7xl mx-auto">
       {/* Global Net Liquidity Hero */}
       <AccountsHeader
         totalLiquidity={totalLiquidity}
@@ -85,22 +85,22 @@ export default function AccountsContent() {
       <AccountsList accounts={accounts} onEditAccount={handleOpenEditAccount} />
 
       {/* Bottom Content: Transactions & Insights */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8">
         <WalletActivity />
         <SecurityHealth />
       </div>
 
       {showConnectModal ? (
-        <div className="fixed inset-y-0 left-64 right-0 z-[80] bg-slate-900/45 flex items-center justify-center p-4">
-          <div className="w-full max-w-lg rounded-2xl bg-white border border-slate-200 shadow-2xl">
-            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-primary">Connect New Account</h3>
+        <div className="fixed inset-y-0 left-0 md:left-64 right-0 z-[80] bg-slate-900/45 flex items-center justify-center p-4">
+          <div className="w-full max-w-lg rounded-2xl bg-white border border-slate-200 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="px-4 md:px-6 py-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white">
+              <h3 className="text-base md:text-lg font-bold text-primary">Connect New Account</h3>
               <button type="button" onClick={() => setShowConnectModal(false)} className="p-1 rounded-lg text-slate-500 hover:bg-slate-100">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
 
-            <form onSubmit={handleCreateAccount} className="p-6 space-y-4">
+            <form onSubmit={handleCreateAccount} className="p-4 md:p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5 sm:col-span-2">
                   <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Account Name</label>
@@ -168,16 +168,16 @@ export default function AccountsContent() {
       ) : null}
 
       {editingAccountId ? (
-        <div className="fixed inset-y-0 left-64 right-0 z-[80] bg-slate-900/45 flex items-center justify-center p-4">
-          <div className="w-full max-w-lg rounded-2xl bg-white border border-slate-200 shadow-2xl">
-            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-primary">Edit Account</h3>
+        <div className="fixed inset-0 z-[80] bg-slate-900/45 flex items-end sm:items-center justify-center p-0 sm:p-4">
+          <div className="w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl bg-white border border-slate-200 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white">
+              <h3 className="text-base sm:text-lg font-bold text-primary">Edit Account</h3>
               <button type="button" onClick={() => setEditingAccountId(null)} className="p-1 rounded-lg text-slate-500 hover:bg-slate-100">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
 
-            <form onSubmit={handleSaveAccountEdit} className="p-6 space-y-4">
+            <form onSubmit={handleSaveAccountEdit} className="p-4 sm:p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5 sm:col-span-2">
                   <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Account Name</label>
@@ -229,7 +229,7 @@ export default function AccountsContent() {
                 </div>
               </div>
 
-              <div className="pt-2 flex justify-end gap-3">
+              <div className="pt-2 flex flex-col sm:flex-row justify-end gap-3">
                 <button type="button" onClick={() => setEditingAccountId(null)} className="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-700 font-semibold hover:bg-slate-50">
                   Cancel
                 </button>

@@ -23,6 +23,20 @@ export default {
         'gradient-finance': 'linear-gradient(135deg, #0F172A 0%, #1E293B 100%)',
         'gradient-accent': 'linear-gradient(135deg, #2E8B9E 0%, #0F172A 100%)',
       },
+      height: {
+        screen: '100vh',
+        'screen-dvh': '100dvh',
+      },
+      minHeight: {
+        screen: ['100vh', '100dvh'],
+        'screen-dvh': '100dvh',
+      },
+      width: {
+        screen: '100%',
+      },
+      maxWidth: {
+        screen: '100%',
+      },
     },
   },
   plugins: [require('@tailwindcss/forms')],

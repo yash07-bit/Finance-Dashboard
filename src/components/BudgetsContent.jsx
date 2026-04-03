@@ -114,7 +114,7 @@ export default function BudgetsContent() {
   const variancePct = budgetMetrics.utilizationPct - targetUtilizationPct;
 
   return (
-    <div className="p-8 min-h-screen">
+    <div className="p-4 md:p-8 min-h-screen">
       <div className="max-w-7xl mx-auto">
         {/* Hero Header Section */}
         <BudgetHeader
@@ -123,7 +123,7 @@ export default function BudgetsContent() {
         />
 
         {/* Bento Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
           <BudgetSummaryCard
             totalBudget={budgetMetrics.totalBudget}
             totalSpent={budgetMetrics.totalSpent}
@@ -133,7 +133,7 @@ export default function BudgetsContent() {
         </div>
 
         {/* Category Detail Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8 mb-8 md:mb-12">
           <CategoryBreakdown rows={budgetMetrics.categoryRows} />
           <AddCategoryForm
             onCreateCategory={handleCreateCategory}

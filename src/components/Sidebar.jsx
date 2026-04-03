@@ -1,7 +1,8 @@
 import { Link, useLocation } from 'react-router-dom';
 import ExcelUpload from './ExcelUpload';
+import { useState } from 'react';
 
-export default function Sidebar() {
+export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
   const location = useLocation();
 
   const navItems = [
@@ -20,7 +21,19 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="h-screen w-64 fixed left-0 top-0 bg-gradient-to-b from-slate-900 to-slate-800 flex flex-col p-5 z-50 border-r border-primary-accent/15 shadow-lg">
+    <>
+      {/* Mobile Backdrop */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30 md:hidden"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside className={`h-screen w-64 fixed left-0 top-0 bg-gradient-to-b from-slate-900 to-slate-800 flex flex-col p-5 z-50 border-r border-primary-accent/15 shadow-lg transition-transform duration-300 md:translate-x-0 ${
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      }`}>
       <div className="mb-12">
         <div className="flex items-center gap-2 mb-1">
           <div className="w-8 h-8 rounded-lg bg-primary-accent flex items-center justify-center">
@@ -38,6 +51,7 @@ export default function Sidebar() {
           <Link
             key={item.href}
             to={item.href}
+            onClick={() => setSidebarOpen(false)}
             className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 font-medium text-sm ${
               isActive(item.href)
                 ? 'bg-primary-accent/20 text-white border border-primary-accent/40 shadow-sm'
@@ -57,6 +71,7 @@ export default function Sidebar() {
       <div className="border-t border-primary-accent/10 pt-4 mt-auto">
         <Link
           to="/settings"
+          onClick={() => setSidebarOpen(false)}
           className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-150 font-medium text-sm ${
             isActive('/settings')
               ? 'bg-primary-accent/20 text-white border border-primary-accent/40 shadow-sm'
@@ -69,7 +84,7 @@ export default function Sidebar() {
       </div>
 
       <div className="mt-6 pt-6 border-t border-primary-accent/10">
-        <Link to="/settings" className="flex items-center gap-3 px-2 rounded-xl py-2 hover:bg-primary-accent/10 transition-colors">
+        <Link to="/settings" onClick={() => setSidebarOpen(false)} className="flex items-center gap-3 px-2 rounded-xl py-2 hover:bg-primary-accent/10 transition-colors">
           <div className="w-10 h-10 rounded-full bg-primary-accent/20 flex items-center justify-center">
             <span className="material-symbols-outlined text-primary-accent">account_circle</span>
           </div>
@@ -80,5 +95,6 @@ export default function Sidebar() {
         </Link>
       </div>
     </aside>
+    </>
   );
 }

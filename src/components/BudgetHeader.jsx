@@ -50,10 +50,10 @@ export default function BudgetHeader({ initialLimits = {}, onAllocationsUpdated 
       </div>
 
       {showModal && (
-        <div className="fixed inset-y-0 left-64 right-0 z-[70] flex items-center justify-center bg-slate-900/45 p-4">
-          <div className="bg-white rounded-xl shadow-xl w-full max-w-md">
-            <div className="p-8">
-              <h2 className="text-2xl font-bold font-headline mb-6 text-primary">
+        <div className="fixed inset-0 z-[70] flex items-end sm:items-center justify-center bg-slate-900/45 p-0 sm:p-4">
+          <div className="bg-white rounded-t-2xl sm:rounded-xl shadow-xl w-full sm:max-w-md max-h-[90vh] overflow-y-auto">
+            <div className="p-4 sm:p-8">
+              <h2 className="text-xl sm:text-2xl font-bold font-headline mb-6 text-primary">
                 Adjust Budget Allocations
               </h2>
 
@@ -78,7 +78,7 @@ export default function BudgetHeader({ initialLimits = {}, onAllocationsUpdated 
                 ))}
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-3">
                 <button
                   onClick={() => setShowModal(false)}
                   className="flex-1 px-4 py-2.5 rounded-lg text-sm font-semibold border border-outline-variant text-on-surface hover:bg-surface-container transition-colors"

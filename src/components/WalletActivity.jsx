@@ -60,14 +60,14 @@ export default function WalletActivity() {
           <span className="material-symbols-outlined text-sm">download</span>
         </button>
       </div>
-      <div className="bg-surface-container-low rounded-2xl p-2">
-        <table className="w-full text-left border-separate" style={{ borderSpacing: '0 0.5rem' }}>
+      <div className="bg-surface-container-low rounded-2xl p-2 overflow-x-auto">
+        <table className="w-full min-w-[640px] text-left border-separate" style={{ borderSpacing: '0 0.5rem' }}>
           <thead>
             <tr className="text-on-surface-variant text-xs font-semibold uppercase tracking-wider">
-              <th className="px-6 py-3">Transaction</th>
-              <th className="px-6 py-3">Account</th>
-              <th className="px-6 py-3 text-right">Amount</th>
-              <th className="px-6 py-3 text-right">Status</th>
+              <th className="px-4 md:px-6 py-3 whitespace-nowrap">Transaction</th>
+              <th className="px-4 md:px-6 py-3 whitespace-nowrap">Account</th>
+              <th className="px-4 md:px-6 py-3 text-right whitespace-nowrap">Amount</th>
+              <th className="px-4 md:px-6 py-3 text-right whitespace-nowrap">Status</th>
             </tr>
           </thead>
           <tbody className="text-sm">

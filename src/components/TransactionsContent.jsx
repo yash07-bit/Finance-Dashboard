@@ -8,7 +8,7 @@ import { useAppData } from '../context/useAppData';
 
 export default function TransactionsContent() {
   const pageSize = 5;
-  const { data, addTransaction } = useAppData();
+  const { data, addTransaction, updateTransaction, deleteTransaction } = useAppData();
   const [transactions, setTransactions] = useState(() => data.transactions);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
@@ -16,6 +16,7 @@ export default function TransactionsContent() {
   const [sortOrder, setSortOrder] = useState('newest');
   const [page, setPage] = useState(1);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingTransactionId, setEditingTransactionId] = useState(null);
   const [newTransaction, setNewTransaction] = useState({
     description: '',
     category: '',
@@ -72,11 +73,13 @@ export default function TransactionsContent() {
   };
 
   const openAddModal = () => {
+    setEditingTransactionId(null);
     setIsAddModalOpen(true);
   };
 
   const closeAddModal = () => {
     setIsAddModalOpen(false);
+    setEditingTransactionId(null);
     setNewTransaction({
       description: '',
       category: '',
@@ -108,6 +111,53 @@ export default function TransactionsContent() {
     setPage(1);
   };
 
+  const openEditModal = (transaction) => {
+    setEditingTransactionId(transaction.id);
+    setNewTransaction({
+      description: transaction.description ?? '',
+      category: transaction.category ?? '',
+      amount: String(transaction.amount ?? '').replace(/[^\d.]/g, ''),
+      type: transaction.type === 'income' ? 'income' : 'expense',
+      date: transaction.date ?? new Date().toISOString().slice(0, 10),
+    });
+    setIsAddModalOpen(true);
+  };
+
+  const handleSaveTransaction = (event) => {
+    event.preventDefault();
+
+    const amount = Number(newTransaction.amount);
+    if (!newTransaction.description.trim() || !newTransaction.category.trim() || !newTransaction.date || Number.isNaN(amount) || amount <= 0) {
+      return;
+    }
+
+    const transactionPayload = {
+      date: newTransaction.date,
+      description: newTransaction.description.trim(),
+      category: newTransaction.category.trim(),
+      icon: newTransaction.type === 'income' ? 'payments' : 'receipt_long',
+      amount,
+      type: newTransaction.type,
+    };
+
+    if (editingTransactionId) {
+      updateTransaction(editingTransactionId, transactionPayload);
+    } else {
+      addTransaction(transactionPayload);
+    }
+
+    closeAddModal();
+    setPage(1);
+  };
+
+  const handleDeleteTransaction = (transaction) => {
+    const confirmDelete = window.confirm(`Delete ${transaction.description}?`);
+    if (!confirmDelete) return;
+
+    deleteTransaction(transaction.id);
+    setPage(1);
+  };
+
   return (
     <div className="flex flex-col flex-1">
       {/* Page Header */}
@@ -127,8 +177,12 @@ export default function TransactionsContent() {
       />
 
       {/* Transaction Content */}
-      <div className="px-8 pb-12 flex-1">
-        <TransactionTable transactions={pageTransactions} />
+      <div className="px-4 md:px-8 pb-8 md:pb-12 flex-1">
+        <TransactionTable
+          transactions={pageTransactions}
+          onEditTransaction={openEditModal}
+          onDeleteTransaction={handleDeleteTransaction}
+        />
         <Pagination
           page={page}
           pageSize={pageSize}
@@ -138,16 +192,16 @@ export default function TransactionsContent() {
       </div>
 
       {isAddModalOpen && (
-        <div className="fixed inset-y-0 left-64 right-0 z-[70] flex items-center justify-center bg-slate-900/45 p-4">
-          <div className="w-full max-w-lg rounded-2xl bg-white border border-slate-200 shadow-2xl">
-            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-              <h3 className="text-lg font-bold text-primary">Add Transaction</h3>
+        <div className="fixed inset-y-0 left-0 md:left-64 right-0 z-[70] flex items-center justify-center bg-slate-900/45 p-4">
+          <div className="w-full max-w-lg rounded-2xl bg-white border border-slate-200 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="px-4 md:px-6 py-4 border-b border-slate-100 flex items-center justify-between sticky top-0 bg-white">
+              <h3 className="text-base md:text-lg font-bold text-primary">{editingTransactionId ? 'Edit Transaction' : 'Add Transaction'}</h3>
               <button type="button" onClick={closeAddModal} className="p-1 rounded-lg text-slate-500 hover:bg-slate-100">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
 
-            <form onSubmit={handleCreateTransaction} className="p-6 space-y-4">
+            <form onSubmit={handleSaveTransaction} className="p-4 md:p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5 sm:col-span-2">
                   <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Description</label>
@@ -216,7 +270,7 @@ export default function TransactionsContent() {
                   Cancel
                 </button>
                 <button type="submit" className="px-5 py-2.5 rounded-xl bg-primary text-white font-semibold hover:opacity-90">
-                  Save Transaction
+                  {editingTransactionId ? 'Update Transaction' : 'Save Transaction'}
                 </button>
               </div>
             </form>
